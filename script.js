@@ -124,7 +124,6 @@ $('.idea-input-save-button').on('click', function(e) {
 function clearInputs() {
   $('.idea-input-title').val('');
   $('.idea-input-body').val('');
-
   $('.idea-input-title').focus();
 }
 
@@ -171,7 +170,7 @@ function ideaDelete(){
   // globalArray = globalArrayPulledFromLocalStorage;
   // var stringifiedGlobalArray = JSON.stringify(globalArray);
   // localStorage.setItem('globalArray', stringifiedGlobalArray);
-
+  pushGlobalArrayToLocalStorage(globalArrayPulledFromLocalStorage)
   $(this).closest('article').remove();
 };
 
@@ -274,8 +273,12 @@ function pushGlobalArrayToLocalStorage(array) {
 
 function pullGlobalArrayFromLocalStorage() {
   var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
+<<<<<<< HEAD
+  return globalArrayPulledFromLocalStorage;}
+=======
   return globalArrayPulledFromLocalStorage;
 }
+>>>>>>> 84e3130c531f25cda5854b93f5fcc2500ad75112
 
 // function loadSavedIdeas (){
 //   if (localStorage.getItem('globalArray') !== null){
