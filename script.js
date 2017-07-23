@@ -28,24 +28,38 @@
 */
 
 // ON PAGE LOAD
-var globalArray = [];
-pullGlobalArrayFromLocalStorage();
+$(document).ready(loadEverything);
 
-$(function () {
-  loadSavedIdeas();
-});
-
-function Idea() {
-  this.id = '';
-  this.title = '';
-  this.body = '';
-  this.quality = 'swill';
+function loadEverything() {
+  if(localStorage.getItem(globalArray) === null) {
+    var newArray = [];
+    localStorage.setItem(globalArray, JSON.stringify(newArray));
+  } else {
+    var stateArray = pullGlobalArrayFromLocalStorage();
+    for (var i = 0; i < stateArray.length; i++) {
+      createBox(stateArray[i]);
+    }
+  }
 }
 
+// var globalArray = [];
+// pullGlobalArrayFromLocalStorage();
+//
+// $(function () {
+//   loadSavedIdeas();
+// });
+
+function Idea() {
+  this.id = '',
+  this.title = '',
+  this.body = '',
+  this.quality = 'swill',
+
+  Idea.prototype.generateID = function() {
+    this.id = '' + Math.random().toString(36).substr(2,16);
+}}
+
 // http://www.frontcoded.com/javascript-create-unique-ids.html
-Idea.prototype.generateID = function() {
-  this.id = '' + Math.random().toString(36).substr(2,16);
-};
 
 /* -------------------
    - EVENT LISTENERS -
@@ -121,7 +135,8 @@ $('.search-bar-input').on('keyup',searchFunction)
 
 function searchFunction() {
   var currentInputField = $(this).val().toUpperCase();
-  var matchingIdeas = globalArray.filter(function(element){
+  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
+  var matchingIdeas = globalArrayPulledFromLocalStorage.filter(function(element){
   return element.title.toUpperCase().includes(currentInputField) ||
   element.body.toUpperCase().includes(currentInputField)||
   element.quality.toUpperCase().includes(currentInputField);
@@ -129,10 +144,11 @@ function searchFunction() {
   createSearchBoxes(matchingIdeas)
 }
 
-function createSearchBoxes(matchingIdeas) {  $('.idea-box').remove();
+function createSearchBoxes(matchingIdeas) {
+  $('.idea-box').remove();
   matchingIdeas.forEach(function(idea){
-    createBox(idea)});
-  }
+    createBox(idea)
+  })};
 
 
 
@@ -140,16 +156,14 @@ function createSearchBoxes(matchingIdeas) {  $('.idea-box').remove();
 
 // DELETE BUTTON EVENT LISTENER
 $('.bottom').on('click', '.idea-box-delete-button', function(){
-
-  var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-  var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
+  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
   var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(element){
+  var index = globalArrayPulledFromLocalStorage.findIndex(function(element){
     return element.id === key;
   })
 
-  parsedGlobalArray.splice(index, 1);
-  globalArray = parsedGlobalArray;
+  globalArrayPulledFromLocalStorage.splice(index, 1);
+  globalArray = globalArrayPulledFromLocalStorage;
   var stringifiedGlobalArray = JSON.stringify(globalArray);
   localStorage.setItem('globalArray', stringifiedGlobalArray);
 
@@ -264,11 +278,8 @@ function pushGlobalArrayToLocalStorage() {
 };
 
 function pullGlobalArrayFromLocalStorage() {
-  var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-  if(globalArrayPulledFromLocalStorage != null){
-    var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
-    globalArray = parsedGlobalArray;
-  }
+  var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
+  return globalArrayPulledFromLocalStorage;
 }
 
 function loadSavedIdeas (){
