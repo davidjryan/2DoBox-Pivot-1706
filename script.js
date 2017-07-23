@@ -36,7 +36,7 @@ function loadEverything() {
     localStorage.setItem(globalArray, JSON.stringify(newArray));
   } else {
     var stateArray = pullGlobalArrayFromLocalStorage();
-    for var i = 0; i < stateArray.length; i++) {
+    for (var i = 0; i < stateArray.length; i++) {
       createBox(stateArray[i]);
     }
   }
@@ -49,16 +49,17 @@ function loadEverything() {
 //   loadSavedIdeas();
 // });
 
-function Idea() {
-  this.id = '',
-  this.title = '',
-  this.body = '',
-  this.quality = 'swill',
+function Idea(title, body) {
+  this.id = generateID(),
+  this.title = title,
+  this.body = body,
+  this.quality = 'swill';
 
-  Idea.prototype.generateID = function() {
-    this.id = '' + Math.random().toString(36).substr(2,16);
 }
 
+function generateID() {
+  return Math.random().toString(36).substr(2,16);
+}
 // http://www.frontcoded.com/javascript-create-unique-ids.html
 
 /* -------------------
@@ -110,25 +111,21 @@ function Idea() {
 // SAVE BUTTON EVENT LISTENER
 $('.idea-input-save-button').on('click', function(e) {
   e.preventDefault();
-
-  var ideaInputTitle = $('.idea-input-title').val();
-  var ideaInputBody = $('.idea-input-body').val();
-  var newIdea = new Idea();
-
-  newIdea.generateID();
-  newIdea.title = ideaInputTitle;
-  newIdea.body = ideaInputBody;
+  var newIdea = new Idea($('.idea-input-title').val(), $('.idea-input-body').val());
+  var currentArray = pullGlobalArrayFromLocalStorage();
 
   createBox(newIdea);
+  pushGlobalArrayToLocalStorage(currentArray);
+  clearInputs();
 
-  globalArray.push(newIdea);
-  window.localStorage.setItem('globalArray', JSON.stringify(globalArray));
+});
 
+function clearInputs() {
   $('.idea-input-title').val('');
   $('.idea-input-body').val('');
 
   $('.idea-input-title').focus();
-});
+}
 
 // SEARCH BAR EVENT LISTENER
 $('.search-bar-input').on('keyup',searchFunction)
@@ -247,7 +244,6 @@ $('.bottom').on('click', '.idea-box-text', function() {
    })
 
    parsedGlobalArray[index].body = $(this).text();
-   globalArray = parsedGlobalArray;
    pushGlobalArrayToLocalStorage();
  })
 })
@@ -272,24 +268,23 @@ $('.bottom').prepend(`
   `);
 }
 
-function pushGlobalArrayToLocalStorage() {
-  var stringifiedGlobalArray = JSON.stringify(globalArray);
-  localStorage.setItem('globalArray', stringifiedGlobalArray);
+function pushGlobalArrayToLocalStorage(array) {
+  localStorage.setItem('globalArray', JSON.stringify(array));
 };
 
 function pullGlobalArrayFromLocalStorage() {
   var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
   return globalArrayPulledFromLocalStorage;
-}
+};
 
-function loadSavedIdeas (){
-  if (localStorage.getItem('globalArray') !== null){
-
-    var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-    var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
-
-    for(var i = 0; i < parsedGlobalArray.length; i++) {
-      createBox(parsedGlobalArray[i]);
-    }
-  }
-}
+// function loadSavedIdeas (){
+//   if (localStorage.getItem('globalArray') !== null){
+//
+//     var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
+//     var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
+//
+//     for(var i = 0; i < parsedGlobalArray.length; i++) {
+//       createBox(parsedGlobalArray[i]);
+//     }
+//   }
+// }
