@@ -168,6 +168,46 @@ font-weight: 700;
   overflow-y: scroll;
 }
 
+.idea-box-delete-button{
+  background-image: url('images/delete.svg');
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.idea-box-delete-button:hover{
+  background-image: url('images/delete-hover.svg');
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.idea-box-upvote-button{
+  background-image: url('images/upvote.svg');
+  height: 1.5em;
+  width: 1.5em;
+  background-repeat: no-repeat;
+}
+
+.idea-box-upvote-button:hover{
+  background-image: url('images/upvote-hover.svg');
+  height: 1.5em;
+  width: 1.5em;
+  background-repeat: no-repeat;
+}
+
+.idea-box-downvote-button{
+  background-image: url('images/downvote.svg');
+  height: 1.5em;
+  width: 1.5em;
+  background-repeat: no-repeat;
+}
+
+.idea-box-downvote-button:hover{
+  background-image: url('images/downvote-hover.svg');
+  height: 1.5em;
+  width: 1.5em;
+  background-repeat: no-repeat;
+}
+
 /* IDEABOX STYLE */
 .idea-box {
   width: 55%;
