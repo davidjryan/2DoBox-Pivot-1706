@@ -154,7 +154,7 @@ function createSearchBoxes(matchingIdeas) {
 // DELETE BUTTON EVENT LISTENER
 $('.bottom').on('click', '.idea-box-delete-button', ideaDelete)
 
-function ideaDelete(){
+function ideaDelete(e){
   var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
   var key = $(this).closest('article').find('.idea-box-id-hidden').text();
   globalArrayPulledFromLocalStorage.forEach(function(idea, index) {
@@ -171,7 +171,12 @@ function ideaDelete(){
   // var stringifiedGlobalArray = JSON.stringify(globalArray);
   // localStorage.setItem('globalArray', stringifiedGlobalArray);
   pushGlobalArrayToLocalStorage(globalArrayPulledFromLocalStorage)
-  $(this).closest('article').remove();
+  remove (e)
+  // $(this).closest('article').remove();
+};
+
+function remove (e){
+  $(e.target).closest('article').remove();
 };
 
 // UPVOTE BUTTON EVENT LISTENER
@@ -273,12 +278,10 @@ function pushGlobalArrayToLocalStorage(array) {
 
 function pullGlobalArrayFromLocalStorage() {
   var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
-<<<<<<< HEAD
   return globalArrayPulledFromLocalStorage;}
-=======
-  return globalArrayPulledFromLocalStorage;
-}
->>>>>>> 84e3130c531f25cda5854b93f5fcc2500ad75112
+
+
+
 
 // function loadSavedIdeas (){
 //   if (localStorage.getItem('globalArray') !== null){
