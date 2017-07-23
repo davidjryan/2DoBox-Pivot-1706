@@ -31,9 +31,9 @@
 $(document).ready(loadEverything);
 
 function loadEverything() {
-  if(localStorage.getItem(globalArray) === null) {
+  if(localStorage.getItem("globalArray") === null) {
     var newArray = [];
-    localStorage.setItem(globalArray, JSON.stringify(newArray));
+    localStorage.setItem("globalArray", JSON.stringify(newArray));
   } else {
     var stateArray = pullGlobalArrayFromLocalStorage();
     for (var i = 0; i < stateArray.length; i++) {
@@ -115,6 +115,7 @@ $('.idea-input-save-button').on('click', function(e) {
   var currentArray = pullGlobalArrayFromLocalStorage();
 
   createBox(newIdea);
+  currentArray.push(newIdea);
   pushGlobalArrayToLocalStorage(currentArray);
   clearInputs();
 
@@ -274,6 +275,7 @@ function pushGlobalArrayToLocalStorage(array) {
 function pullGlobalArrayFromLocalStorage() {
   var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
   return globalArrayPulledFromLocalStorage;
+}
 
 // function loadSavedIdeas (){
 //   if (localStorage.getItem('globalArray') !== null){
