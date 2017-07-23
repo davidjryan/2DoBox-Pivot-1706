@@ -23,6 +23,19 @@
         </form>
       </section>
       <section class="bottom">
+        <article class="idea-box">
+          <p class="idea-box-id-hidden">${idea.id}</p>
+          <div class="idea-box-top-line">
+            <h2 class="idea-box-header">${idea.title}</h2>
+            <div class="idea-box-delete-button"></div>
+          </div>
+          <p class="idea-box-text">${idea.body}</p>
+          <div class="idea-box-bottom-line">
+            <div class="idea-box-upvote-button icon"></div>
+            <div class="idea-box-downvote-button icon"></div>
+            <p class="idea-box-quality">quality: <span class="idea-box-quality-value">${idea.quality}</span></p>
+          </div>
+        </article>
       </section>
     </main>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

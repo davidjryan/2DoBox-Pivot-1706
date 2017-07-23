@@ -66,42 +66,46 @@ function Idea() {
    ------------------- */
 
 // INPUT FIELD EVENT LISTENER
-  $(".idea-input-title").keyup(function() {
-  $(".idea-input-save-button").prop("disabled", !this.value);
-});
+  $(".idea-input-title, .idea-input-body").keyup(inputTitleDisabled)
 
-  $(".idea-input-body").keyup(function() {
+    function inputTitleDisabled() {
   $(".idea-input-save-button").prop("disabled", !this.value);
-});
+};
+
+//   $(".idea-input-body").keyup(
+//
+//     function() {
+//   $(".idea-input-save-button").prop("disabled", !this.value);
+// });
 
 // BUTTON HOVER EVENT LISTENER
 
 // delete
-$('.bottom').on('mouseover', '.idea-box-delete-button', function() {
-  $(this).prop("src", "images/delete-hover.svg");
-})
-
-$('.bottom').on('mouseleave', '.idea-box-delete-button', function() {
-  $(this).prop("src", "images/delete.svg");
-})
+// $('.bottom').on('mouseover', '.idea-box-delete-button', function() {
+//   $(this).prop("src", "images/delete-hover.svg");
+// })
+//
+// $('.bottom').on('mouseleave', '.idea-box-delete-button', function() {
+//   $(this).prop("src", "images/delete.svg");
+// })
 
 // upvote
-$('.bottom').on('mouseover', '.idea-box-upvote-button', function() {
-  $(this).prop("src", "images/upvote-hover.svg");
-})
-
-$('.bottom').on('mouseleave', '.idea-box-upvote-button', function() {
-  $(this).prop("src", "images/upvote.svg");
-})
+// $('.bottom').on('mouseover', '.idea-box-upvote-button', function() {
+//   $(this).prop("src", "images/upvote-hover.svg");
+// })
+//
+// $('.bottom').on('mouseleave', '.idea-box-upvote-button', function() {
+//   $(this).prop("src", "images/upvote.svg");
+// })
 
 // downvote
-$('.bottom').on('mouseover', '.idea-box-downvote-button', function() {
-  $(this).prop("src", "images/downvote-hover.svg");
-})
-
-$('.bottom').on('mouseleave', '.idea-box-downvote-button', function() {
-  $(this).prop("src", "images/downvote.svg");
-})
+// $('.bottom').on('mouseover', '.idea-box-downvote-button', function() {
+//   $(this).prop("src", "images/downvote-hover.svg");
+// })
+//
+// $('.bottom').on('mouseleave', '.idea-box-downvote-button', function() {
+//   $(this).prop("src", "images/downvote.svg");
+// })
 
 // SAVE BUTTON EVENT LISTENER
 $('.idea-input-save-button').on('click', function(e) {
@@ -245,18 +249,18 @@ $('.bottom').on('click', '.idea-box-text', function() {
 function createBox (idea) {
 $('.bottom').prepend(`
   <article class="idea-box">
-    <p class="idea-box-id-hidden">${idea.id}</p>
-    <div class="idea-box-top-line">
-      <h2 class="idea-box-header">${idea.title}</h2>
-      <img class="idea-box-delete-button icon" src="images/delete.svg" alt="delete button" />
-    </div>
-    <p class="idea-box-text">${idea.body}</p>
-    <div class="idea-box-bottom-line">
-      <img class="idea-box-upvote-button icon" src="images/upvote.svg" alt="upvote button" />
-      <img class="idea-box-downvote-button icon" src="images/downvote.svg" alt="downvote button" />
-      <p class="idea-box-quality">quality: <span class="idea-box-quality-value">${idea.quality}</span></p>
-    </div>
-  </article>
+  <p class="idea-box-id-hidden">${idea.id}</p>
+  <div class="idea-box-top-line">
+    <h2 class="idea-box-header">${idea.title}</h2>
+    <div class="idea-box-delete-button"></div>
+  </div>
+  <p class="idea-box-text">${idea.body}</p>
+  <div class="idea-box-bottom-line">
+    <div class="idea-box-upvote-button icon"></div>
+    <div class="idea-box-downvote-button icon"></div>
+    <p class="idea-box-quality">quality: <span class="idea-box-quality-value">${idea.quality}</span></p>
+  </div>
+</article>
   `);
 }
 
