@@ -158,9 +158,14 @@ function createSearchBoxes(matchingIdeas) {
 $('.bottom').on('click', '.idea-box-delete-button', function(){
   var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
   var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  var index = globalArrayPulledFromLocalStorage.findIndex(function(element){
-    return element.id === key;
-  })
+  globalArrayPulledFromLocalStorage.forEach(function(idea, index) {
+    if (key == element.id) {
+      cardArray.splice(index, 1)
+    }
+
+  // var index = globalArrayPulledFromLocalStorage.findIndex(function(element){
+  //   return element.id === key;
+  // })
 
   globalArrayPulledFromLocalStorage.splice(index, 1);
   globalArray = globalArrayPulledFromLocalStorage;
