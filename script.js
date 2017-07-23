@@ -28,24 +28,38 @@
 */
 
 // ON PAGE LOAD
-var globalArray = [];
-pullGlobalArrayFromLocalStorage();
+$(document).ready(loadEverything);
 
-$(function () {
-  loadSavedIdeas();
-});
+function loadEverything() {
+  if(localStorage.getItem(globalArray) === null) {
+    var newArray = [];
+    localStorage.setItem(globalArray, JSON.stringify(newArray));
+  } else {
+    var stateArray = pullGlobalArrayFromLocalStorage();
+    for var i = 0; i < stateArray.length; i++) {
+      createBox(stateArray[i]);
+    }
+  }
+}
+
+// var globalArray = [];
+// pullGlobalArrayFromLocalStorage();
+//
+// $(function () {
+//   loadSavedIdeas();
+// });
 
 function Idea() {
-  this.id = '';
-  this.title = '';
-  this.body = '';
-  this.quality = 'swill';
+  this.id = '',
+  this.title = '',
+  this.body = '',
+  this.quality = 'swill',
+
+  Idea.prototype.generateID = function() {
+    this.id = '' + Math.random().toString(36).substr(2,16);
 }
 
 // http://www.frontcoded.com/javascript-create-unique-ids.html
-Idea.prototype.generateID = function() {
-  this.id = '' + Math.random().toString(36).substr(2,16);
-};
 
 /* -------------------
    - EVENT LISTENERS -
@@ -256,11 +270,8 @@ function pushGlobalArrayToLocalStorage() {
 };
 
 function pullGlobalArrayFromLocalStorage() {
-  var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-  if(globalArrayPulledFromLocalStorage != null){
-    var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
-    globalArray = parsedGlobalArray;
-  }
+  var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
+  return globalArrayPulledFromLocalStorage;
 }
 
 function loadSavedIdeas (){
