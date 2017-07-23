@@ -117,18 +117,26 @@ $('.idea-input-save-button').on('click', function(e) {
 });
 
 // SEARCH BAR EVENT LISTENER
-$('.search-bar-input').keyup(function (e) {
-  e.preventDefault();
-  var currentInputField = $(this).val();
-  var matchingIdeas = globalArray.filter(function(element){
-  return element.title.includes(currentInputField) || element.body.includes(currentInputField);
-  })
+$('.search-bar-input').on('keyup',searchFunction)
 
-  $('.idea-box').remove();
-  for(var i = 0; i < matchingIdeas.length; i++){
-    createBox(matchingIdeas[i]);
+function searchFunction() {
+  var currentInputField = $(this).val().toUpperCase();
+  var matchingIdeas = globalArray.filter(function(element){
+  return element.title.toUpperCase().includes(currentInputField) ||
+  element.body.toUpperCase().includes(currentInputField)||
+  element.quality.toUpperCase().includes(currentInputField);
+  })
+  createSearchBoxes(matchingIdeas)
+}
+
+function createSearchBoxes(matchingIdeas) {  $('.idea-box').remove();
+  matchingIdeas.forEach(function(idea){
+    createBox(idea)});
   }
-})
+
+
+
+
 
 // DELETE BUTTON EVENT LISTENER
 $('.bottom').on('click', '.idea-box-delete-button', function(){
