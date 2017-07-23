@@ -177,46 +177,41 @@ function ideaDelete(){
 // UPVOTE BUTTON EVENT LISTENER
 
 $('.bottom').on('click','.idea-box-upvote-button', function() {
-  var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-  var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
+
+  var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
   var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(element){
-    return element.id === key;
+  var index = parsedGlobalArray.findIndex(function(object){
+    return object.id === key;
   })
 
   if (parsedGlobalArray[index].quality === 'swill') {
     parsedGlobalArray[index].quality = 'plausible';
     $(this).closest('div').find('span').text('plausible');
-    globalArray = parsedGlobalArray;
-    pushGlobalArrayToLocalStorage();
+    pushGlobalArrayToLocalStorage(parsedGlobalArray);
 
   } else if (parsedGlobalArray[index].quality === 'plausible'){
       parsedGlobalArray[index].quality = 'genius';
       $(this).closest('div').find('span').text('genius');
-      globalArray = parsedGlobalArray;
-      pushGlobalArrayToLocalStorage();
+      pushGlobalArrayToLocalStorage(parsedGlobalArray);
   }
 })
 
 // DOWNVOTE BUTTON EVENT LISTENER
 $('.bottom').on('click','.idea-box-downvote-button', function() {
-  var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-  var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
+  var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
   var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(element){
-    return element.id === key;
+  var index = parsedGlobalArray.findIndex(function(object){
+    return object.id === key;
   })
 
   if (parsedGlobalArray[index].quality === 'genius') {
     parsedGlobalArray[index].quality = 'plausible';
     $(this).closest('div').find('span').text('plausible');
-    globalArray = parsedGlobalArray;
-    pushGlobalArrayToLocalStorage();
+    pushGlobalArrayToLocalStorage(parsedGlobalArray);
   } else if (parsedGlobalArray[index].quality === 'plausible'){
       parsedGlobalArray[index].quality = 'swill';
       $(this).closest('div').find('span').text('swill');
-      globalArray = parsedGlobalArray;
-      pushGlobalArrayToLocalStorage();
+      pushGlobalArrayToLocalStorage(parsedGlobalArray);
   }
 })
 
@@ -225,16 +220,14 @@ $('.bottom').on('click', '.idea-box-header', function() {
    $(this).prop("contenteditable") === true ? null : $(this).prop("contenteditable", true);
 
    $(this).on('blur', function() {
-      var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-      var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
+      var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
       var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-      var index = parsedGlobalArray.findIndex(function(element){
-        return element.id === key;
+      var index = parsedGlobalArray.findIndex(function(object){
+        return object.id === key;
       })
 
     parsedGlobalArray[index].title = $(this).text();
-    globalArray = parsedGlobalArray;
-    pushGlobalArrayToLocalStorage();
+    pushGlobalArrayToLocalStorage(parsedGlobalArray);
   })
 })
 
@@ -243,15 +236,14 @@ $('.bottom').on('click', '.idea-box-text', function() {
   ($(this).prop("contenteditable") === true) ? null: $(this).prop("contenteditable", true);
 
   $(this).on('blur', function() {
-   var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-   var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
+   var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
    var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-   var index = parsedGlobalArray.findIndex(function(element){
-     return element.id === key;
+   var index = parsedGlobalArray.findIndex(function(object){
+     return object.id === key;
    })
 
    parsedGlobalArray[index].body = $(this).text();
-   pushGlobalArrayToLocalStorage();
+   pushGlobalArrayToLocalStorage(parsedGlobalArray);
  })
 })
 
