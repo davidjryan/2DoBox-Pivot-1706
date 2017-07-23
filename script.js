@@ -273,7 +273,12 @@ function pushGlobalArrayToLocalStorage(array) {
 
 function pullGlobalArrayFromLocalStorage() {
   var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
+<<<<<<< HEAD
   return globalArrayPulledFromLocalStorage;}
+=======
+  return globalArrayPulledFromLocalStorage;
+}
+>>>>>>> 84e3130c531f25cda5854b93f5fcc2500ad75112
 
 // function loadSavedIdeas (){
 //   if (localStorage.getItem('globalArray') !== null){
