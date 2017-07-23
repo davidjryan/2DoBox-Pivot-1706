@@ -31,9 +31,9 @@
 $(document).ready(loadEverything);
 
 function loadEverything() {
-  if(localStorage.getItem(globalArray) === null) {
+  if(localStorage.getItem("globalArray") === null) {
     var newArray = [];
-    localStorage.setItem(globalArray, JSON.stringify(newArray));
+    localStorage.setItem("globalArray", JSON.stringify(newArray));
   } else {
     var stateArray = pullGlobalArrayFromLocalStorage();
     for (var i = 0; i < stateArray.length; i++) {
@@ -115,6 +115,7 @@ $('.idea-input-save-button').on('click', function(e) {
   var currentArray = pullGlobalArrayFromLocalStorage();
 
   createBox(newIdea);
+  currentArray.push(newIdea);
   pushGlobalArrayToLocalStorage(currentArray);
   clearInputs();
 
@@ -123,7 +124,6 @@ $('.idea-input-save-button').on('click', function(e) {
 function clearInputs() {
   $('.idea-input-title').val('');
   $('.idea-input-body').val('');
-
   $('.idea-input-title').focus();
 }
 
@@ -170,7 +170,7 @@ function ideaDelete(){
   // globalArray = globalArrayPulledFromLocalStorage;
   // var stringifiedGlobalArray = JSON.stringify(globalArray);
   // localStorage.setItem('globalArray', stringifiedGlobalArray);
-
+  pushGlobalArrayToLocalStorage(globalArrayPulledFromLocalStorage)
   $(this).closest('article').remove();
 };
 
@@ -273,7 +273,7 @@ function pushGlobalArrayToLocalStorage(array) {
 
 function pullGlobalArrayFromLocalStorage() {
   var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
-  return globalArrayPulledFromLocalStorage;
+  return globalArrayPulledFromLocalStorage;}
 
 // function loadSavedIdeas (){
 //   if (localStorage.getItem('globalArray') !== null){
