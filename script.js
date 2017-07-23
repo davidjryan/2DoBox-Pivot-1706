@@ -132,7 +132,8 @@ $('.search-bar-input').on('keyup',searchFunction)
 
 function searchFunction() {
   var currentInputField = $(this).val().toUpperCase();
-  var matchingIdeas = globalArray.filter(function(element){
+  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
+  var matchingIdeas = globalArrayPulledFromLocalStorage.filter(function(element){
   return element.title.toUpperCase().includes(currentInputField) ||
   element.body.toUpperCase().includes(currentInputField)||
   element.quality.toUpperCase().includes(currentInputField);
@@ -140,32 +141,38 @@ function searchFunction() {
   createSearchBoxes(matchingIdeas)
 }
 
-function createSearchBoxes(matchingIdeas) {  $('.idea-box').remove();
+function createSearchBoxes(matchingIdeas) {
+  $('.idea-box').remove();
   matchingIdeas.forEach(function(idea){
-    createBox(idea)});
-  }
+    createBox(idea)
+  })};
 
 
 
 
 
 // DELETE BUTTON EVENT LISTENER
-$('.bottom').on('click', '.idea-box-delete-button', function(){
+$('.bottom').on('click', '.idea-box-delete-button', ideaDelete)
 
-  var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-  var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
+function ideaDelete(){
+  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
   var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(element){
-    return element.id === key;
-  })
+  globalArrayPulledFromLocalStorage.forEach(function(idea, index) {
+    if (key == idea.id) {
+      globalArrayPulledFromLocalStorage.splice(index, 1)
+    }})
 
-  parsedGlobalArray.splice(index, 1);
-  globalArray = parsedGlobalArray;
-  var stringifiedGlobalArray = JSON.stringify(globalArray);
-  localStorage.setItem('globalArray', stringifiedGlobalArray);
+  // var index = globalArrayPulledFromLocalStorage.findIndex(function(element){
+  //   return element.id === key;
+  // })
+
+  // globalArrayPulledFromLocalStorage.splice(index, 1);
+  // globalArray = globalArrayPulledFromLocalStorage;
+  // var stringifiedGlobalArray = JSON.stringify(globalArray);
+  // localStorage.setItem('globalArray', stringifiedGlobalArray);
 
   $(this).closest('article').remove();
-});
+};
 
 // UPVOTE BUTTON EVENT LISTENER
 
@@ -275,7 +282,6 @@ function pushGlobalArrayToLocalStorage(array) {
 function pullGlobalArrayFromLocalStorage() {
   var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
   return globalArrayPulledFromLocalStorage;
-};
 
 // function loadSavedIdeas (){
 //   if (localStorage.getItem('globalArray') !== null){
