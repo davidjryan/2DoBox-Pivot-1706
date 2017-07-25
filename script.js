@@ -221,36 +221,43 @@ $('.bottom').on('click','.idea-box-downvote-button', function() {
 })
 
 // TITLE EDIT EVENT LISTENER
-$('.bottom').on('click', '.idea-box-header', function() {
-   $(this).prop("contenteditable") === true ? null : $(this).prop("contenteditable", true);
+// $('.bottom').on('click', '.idea-box-header', function() {
+//    $(this).prop("contenteditable") === true ? null : $(this).prop("contenteditable", true);
 
-   $(this).on('blur', function() {
+   $('.bottom').on('blur', '.idea-box-header, .idea-box-text', function(e) {
       var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
       var key = $(this).closest('article').find('.idea-box-id-hidden').text();
       var index = parsedGlobalArray.findIndex(function(object){
         return object.id === key;
       })
 
-    parsedGlobalArray[index].title = $(this).text();
-    pushGlobalArrayToLocalStorage(parsedGlobalArray);
-  })
-})
+      parsedGlobalArray[index].title = $(e.target).closest('.idea-box').find('.idea-box-header').text();
+      parsedGlobalArray[index].body = $(e.target).closest('.idea-box').find('.idea-box-text').text();
+      pushGlobalArrayToLocalStorage(parsedGlobalArray)
+    // if (parsedGlobalArray[index].title == $('.idea-box-header').text()){
+    //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
+    // }else if (parsedGlobalArray[index].body = $('.idea-box-text').text()) {
+    //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
+    //   }
+  });
+
+
 
 // BODY EDIT EVENT LISTENER
-$('.bottom').on('click', '.idea-box-text', function() {
-  ($(this).prop("contenteditable") === true) ? null: $(this).prop("contenteditable", true);
-
-  $(this).on('blur', function() {
-   var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-   var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-   var index = parsedGlobalArray.findIndex(function(object){
-     return object.id === key;
-   })
-
-   parsedGlobalArray[index].body = $(this).text();
-   pushGlobalArrayToLocalStorage(parsedGlobalArray);
- })
-})
+// $('.bottom').on('click', '.idea-box-text', function() {
+//   ($(this).prop("contenteditable") === true) ? null: $(this).prop("contenteditable", true);
+//
+//   $(this).on('blur', function() {
+//    var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+//    var key = $(this).closest('article').find('.idea-box-id-hidden').text();
+//    var index = parsedGlobalArray.findIndex(function(object){
+//      return object.id === key;
+//    })
+//
+//    parsedGlobalArray[index].body = $(this).text();
+//    pushGlobalArrayToLocalStorage(parsedGlobalArray);
+//  })
+// })
 
 // FUNCTIONS
 
@@ -259,10 +266,10 @@ $('.bottom').prepend(`
   <article class="idea-box">
   <p class="idea-box-id-hidden">${idea.id}</p>
   <div class="idea-box-top-line">
-    <h2 class="idea-box-header">${idea.title}</h2>
+    <h2 class="idea-box-header" contenteditable="true">${idea.title}</h2>
     <div class="idea-box-delete-button"></div>
   </div>
-  <p class="idea-box-text">${idea.body}</p>
+  <p class="idea-box-text" contenteditable="true">${idea.body}</p>
   <div class="idea-box-bottom-line">
     <div class="idea-box-upvote-button icon"></div>
     <div class="idea-box-downvote-button icon"></div>
