@@ -5,15 +5,15 @@
   =====================
 
   1. Top
-    * Ideabox Logo Header
-    * Idea Input Form
+    * todobox Logo Header
+    * todo Input Form
   2. Middle
     * Search Bar
   3. Bottom
-    * Ideabox Style
-    * Ideabox Top Line
-    * Ideabox Text
-    * Ideabox Bottom Line
+    * todobox Style
+    * todobox Top Line
+    * todobox Text
+    * todobox Bottom Line
   4. Media Queries
     * 950 Media Query
     * 800 Media Query
@@ -30,14 +30,14 @@
   =================
 
   #E5F3F2 - Top background color
-  #00A79D - Ideabox logo text teal
-  #6D6E71 - Ideabox logo text grey
+  #00A79D - todobox logo text teal
+  #6D6E71 - todobox logo text grey
   #00A79D - Save Button
   #FFF    - Save Button text color
   #045E55 - Save Button:hover
   #6D6E71 - Save Button disabled
-  #6D6E71 - Idea Box Title
-  #939598 - Idea Box Body
+  #6D6E71 - todo Box Title
+  #939598 - todo Box Body
 
 ============================================== */
 
@@ -68,7 +68,7 @@ main {
    background-color: #E5F3F2;
  }
 
-/* IDEABOX LOGO HEADER */
+/* todoBOX LOGO HEADER */
 h1{
   margin-top: -10px;
   margin-bottom: 10px;
@@ -86,32 +86,32 @@ h1{
 
 .box-title-teal,
 .box-title-grey,
-.idea-box-header {
+.todo-box-header {
 font-family: "Roboto Slab";
 font-weight: 700;
 }
 
-/* IDEA INPUT FORM */
-.idea-input{
+/* todo INPUT FORM */
+.todo-input{
   display: flex;
   flex-flow: column wrap;
   width: 55%;
 }
 
-.idea-input-body {
+.todo-input-body {
   display: flex;
   align-items: flex-start;
 }
 
-.idea-input-title,
-.idea-input-body,
+.todo-input-title,
+.todo-input-body,
 .search-bar-input{
   font-size: 24px;
   padding-left: 10px;
   height: 35px;
 }
 
-.idea-input-save-button{
+.todo-input-save-button{
   background-color: #00A79D;
   color: #FFF;
   border: none;
@@ -119,17 +119,17 @@ font-weight: 700;
   height: 35px;
 }
 
-.idea-input-save-button:hover {
+.todo-input-save-button:hover {
   background-color: #045E55;
 }
 
-.idea-input-save-button:disabled {
+.todo-input-save-button:disabled {
   background-color: #6D6E71;
 }
 
-.idea-input-title,
-.idea-input-body,
-.idea-input-save-button {
+.todo-input-title,
+.todo-input-body,
+.todo-input-save-button {
   margin-top: 10px;
 }
 
@@ -168,48 +168,48 @@ font-weight: 700;
   overflow-y: scroll;
 }
 
-.idea-box-delete-button{
+.todo-box-delete-button{
   background-image: url('images/delete.svg');
   height: 1.5em;
   width: 1.5em;
 }
 
-.idea-box-delete-button:hover{
+.todo-box-delete-button:hover{
   background-image: url('images/delete-hover.svg');
   height: 1.5em;
   width: 1.5em;
 }
 
-.idea-box-upvote-button{
+.todo-box-upvote-button{
   background-image: url('images/upvote.svg');
   height: 1.5em;
   width: 1.5em;
   background-repeat: no-repeat;
 }
 
-.idea-box-upvote-button:hover{
+.todo-box-upvote-button:hover{
   background-image: url('images/upvote-hover.svg');
   height: 1.5em;
   width: 1.5em;
   background-repeat: no-repeat;
 }
 
-.idea-box-downvote-button{
+.todo-box-downvote-button{
   background-image: url('images/downvote.svg');
   height: 1.5em;
   width: 1.5em;
   background-repeat: no-repeat;
 }
 
-.idea-box-downvote-button:hover{
+.todo-box-downvote-button:hover{
   background-image: url('images/downvote-hover.svg');
   height: 1.5em;
   width: 1.5em;
   background-repeat: no-repeat;
 }
 
-/* IDEABOX STYLE */
-.idea-box {
+/* todoBOX STYLE */
+.todo-box {
   width: 55%;
   margin-top: 10px;
   flex: none;
@@ -219,25 +219,25 @@ font-weight: 700;
   height: 28px;
 }
 
-.idea-box-id-hidden {
+.todo-box-id-hidden {
  display: none;
 }
 
-/* IDEABOX TOP LINE */
-.idea-box-top-line{
+/* todoBOX TOP LINE */
+.todo-box-top-line{
   display: flex;
   justify-content: space-between;
 }
 
-.idea-box-header{
+.todo-box-header{
   font-size: 24px;
   color: #6D6E71;
   line-height: 28px;
   margin-right: 25px;
 }
 
-/* IDEABOX TEXT */
-.idea-box-text{
+/* todoBOX TEXT */
+.todo-box-text{
   margin-top: 15px;
   margin-right: 25px;
   font-size: 16px;
@@ -246,8 +246,8 @@ font-weight: 700;
   line-height: 18px;
 }
 
-/* IDEABOX BOTTOM LINE */
-.idea-box-bottom-line{
+/* todoBOX BOTTOM LINE */
+.todo-box-bottom-line{
   display: flex;
   justify-content: flex-start;
   border-bottom: 2px solid #D1D3D4;
@@ -256,19 +256,19 @@ font-weight: 700;
   padding-bottom: 15px;
 }
 
-.idea-box-downvote-button,
-.idea-box-quality {
+.todo-box-downvote-button,
+.todo-box-quality {
   margin-left: 15px;
 }
 
-.idea-box-quality,
-.idea-box-quality-value {
+.todo-box-quality,
+.todo-box-quality-value {
   font-family: "Open Sans";
   color: #6D6E71;
   white-space: pre-wrap;
 }
 
-.idea-box-bottom-line p {
+.todo-box-bottom-line p {
   font-family: 'Roboto Slab', serif;
 }
 
@@ -283,7 +283,7 @@ font-weight: 700;
     height: 50vh;
   }
 
-  .idea-input {
+  .todo-input {
     width: 65%;
   }
 
@@ -291,11 +291,11 @@ font-weight: 700;
     width: 65%;
   }
 
-  .idea-box {
+  .todo-box {
     width: 65%;
   }
 
-  .idea-input-body {
+  .todo-input-body {
     height: 75px;
   }
 
@@ -305,7 +305,7 @@ font-weight: 700;
   .top {
     height: 50vh;
   }
-  .idea-input {
+  .todo-input {
     width: 90%;
   }
 
@@ -313,7 +313,7 @@ font-weight: 700;
     width: 90%;
   }
 
-  .idea-box {
+  .todo-box {
     width: 90%;
   }
 
@@ -321,6 +321,6 @@ font-weight: 700;
     margin-bottom: -5px;
   }
 
-  .idea-input-body {
+  .todo-input-body {
     height: 100px;
   }

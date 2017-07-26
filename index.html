@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ideabox</title>
+    <title>todobox</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet"href="https://fonts.googleapis.com/css?family=Open+Sans:400|Roboto+Slab:700" />
   </head>
   <body>
     <main>
       <section class="top">
-        <h1 class="box-title-teal">idea<span class="box-title-grey">box</span></h1>
-        <form class="idea-input">
-          <input class = "idea-input-title" type="text" placeholder="Title" />
-          <textarea class="idea-input-body" placeholder="Body"></textarea>
-          <input class= "idea-input-save-button" type="submit" value="save" disabled />
+        <h1 class="box-title-teal">ToDo<span class="box-title-grey">Box</span></h1>
+        <form class="todo-input">
+          <input class = "todo-input-title" type="text" placeholder="Title" />
+          <textarea class="todo-input-body" placeholder="Task"></textarea>
+          <input class= "todo-input-save-button" type="submit" value="save" disabled />
         </form>
       </section>
       <section class="middle">
@@ -23,17 +23,17 @@
         </form>
       </section>
       <section class="bottom">
-        <article class="idea-box">
-          <p class="idea-box-id-hidden">${idea.id}</p>
-          <div class="idea-box-top-line">
-            <h2 class="idea-box-header">${idea.title}</h2>
-            <div class="idea-box-delete-button"></div>
+        <article class="todo-box">
+          <p class="todo-box-id-hidden">${todo.id}</p>
+          <div class="todo-box-top-line">
+            <h2 class="todo-box-header">${todo.title}</h2>
+            <div class="todo-box-delete-button"></div>
           </div>
-          <p class="idea-box-text">${idea.body}</p>
-          <div class="idea-box-bottom-line">
-            <div class="idea-box-upvote-button icon"></div>
-            <div class="idea-box-downvote-button icon"></div>
-            <p class="idea-box-quality">quality: <span class="idea-box-quality-value">${idea.quality}</span></p>
+          <p class="todo-box-text">${todo.body}</p>
+          <div class="todo-box-bottom-line">
+            <div class="todo-box-upvote-button icon"></div>
+            <div class="todo-box-downvote-button icon"></div>
+            <p class="todo-box-quality">quality: <span class="todo-box-quality-value">${todo.quality}</span></p>
           </div>
         </article>
       </section>
