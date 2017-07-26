@@ -224,22 +224,51 @@ $('.bottom').on('click','.idea-box-downvote-button', function() {
 // $('.bottom').on('click', '.idea-box-header', function() {
 //    $(this).prop("contenteditable") === true ? null : $(this).prop("contenteditable", true);
 
-   $('.bottom').on('blur', '.idea-box-header, .idea-box-text', function(e) {
-      var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-      var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-      var index = parsedGlobalArray.findIndex(function(object){
-        return object.id === key;
-      })
+$('.bottom').on('keyup', '.idea-box-text, .idea-box-header', ideaUpdate)
 
-      parsedGlobalArray[index].title = $(e.target).closest('.idea-box').find('.idea-box-header').text();
-      parsedGlobalArray[index].body = $(e.target).closest('.idea-box').find('.idea-box-text').text();
-      pushGlobalArrayToLocalStorage(parsedGlobalArray)
-    // if (parsedGlobalArray[index].title == $('.idea-box-header').text()){
-    //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
-    // }else if (parsedGlobalArray[index].body = $('.idea-box-text').text()) {
-    //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
-    //   }
-  });
+function ideaUpdate (event){
+  retrunBtnBlur (event)
+  manageFields (event)
+}
+
+function retrunBtnBlur (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    this.blur();
+  }}
+
+function manageFields (e) {
+  var parsedGlobalArray = pullGlobalArrayFromLocalStorage()
+  var id = $(event.target).closest('.idea-box')[0].id;
+  var body = $(event.target).closest('.idea-box').find('.idea-box-text').text();
+  var title = $(event.target).closest('.idea-box').find('.idea-box-header').text();
+  parsedGlobalArray.forEach(function(card) {
+    if (card.id == id) {
+      card.body = body;
+      card.title = title;
+    }
+pushGlobalArrayToLocalStorage(parsedGlobalArray)
+  })
+};
+;
+
+  //  $('.bottom').on('blur', '.idea-box-header, .idea-box-text', function(e) {
+  //     var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+  //     var key = $(this).closest('article').find('.idea-box-id-hidden').text();
+  //     var index = parsedGlobalArray.findIndex(function(object){
+  //       return object.id === key;
+  //     })
+  //
+  //     parsedGlobalArray[index].title = $(e.target).closest('.idea-box').find('.idea-box-header').text();
+  //     parsedGlobalArray[index].body = $(e.target).closest('.idea-box').find('.idea-box-text').text();
+  //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
+  // });
+
+  // if (parsedGlobalArray[index].title == $('.idea-box-header').text()){
+  //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
+  // }else if (parsedGlobalArray[index].body = $('.idea-box-text').text()) {
+  //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
+  //   }
 
 
 
@@ -263,7 +292,7 @@ $('.bottom').on('click','.idea-box-downvote-button', function() {
 
 function createBox (idea) {
 $('.bottom').prepend(`
-  <article class="idea-box">
+  <article id="${idea.id}" class="idea-box">
   <p class="idea-box-id-hidden">${idea.id}</p>
   <div class="idea-box-top-line">
     <h2 class="idea-box-header" contenteditable="true">${idea.title}</h2>
