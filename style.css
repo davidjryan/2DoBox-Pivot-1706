@@ -285,6 +285,33 @@ font-weight: 700;
   white-space: pre-wrap;
 }
 
+.completed-text {
+  margin-left: auto;
+  border: none;
+  background: none;
+  font-size: 14px;
+  outline: none;
+}
+
+.completed {
+  opacity: 0.5;
+}
+
+.completed p {
+  text-decoration: line-through;
+}
+
+.completed h2 {
+  text-decoration: line-through;
+}
+
+.completed button {
+  color: red;
+}
+
+.read {
+
+}
 
 .todo-box-bottom-line p {
   font-family: 'Roboto Slab', serif;

@@ -247,7 +247,7 @@ $('.bottom').prepend(`
   <div class="todo-box-bottom-line">
     <div class="todo-box-upvote-button icon"></div>
     <div class="todo-box-downvote-button icon"></div>
-    <p class="todo-box-quality">quality: <span class="todo-box-quality-value">${todo.quality}</span></p>
+    <p class="todo-box-quality">quality: <span class="todo-box-quality-value">${todo.quality}</span></p><button class="completed-text">Completed</button>
   </div>
 </article>
   `);
@@ -260,4 +260,10 @@ function pushGlobalArrayToLocalStorage(array) {
 function pullGlobalArrayFromLocalStorage() {
   const globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
   return globalArrayPulledFromLocalStorage;
+}
+
+$('.bottom').on('click', '.completed-text', toggleComplete)
+
+function toggleComplete() {
+  $(this).closest('article').toggleClass('completed');
 }
