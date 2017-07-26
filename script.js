@@ -32,10 +32,10 @@ $(document).ready(loadEverything);
 
 function loadEverything() {
   if(localStorage.getItem("globalArray") === null) {
-    var newArray = [];
+    const newArray = [];
     localStorage.setItem("globalArray", JSON.stringify(newArray));
   } else {
-    var stateArray = pullGlobalArrayFromLocalStorage();
+    const stateArray = pullGlobalArrayFromLocalStorage();
     for (var i = 0; i < stateArray.length; i++) {
       createBox(stateArray[i]);
     }
@@ -71,8 +71,9 @@ $('.todo-input-save-button').on('click',newtodo)
 //creat full new todo and push to ls
 function newtodo(e) {
   e.preventDefault();
-  var newtodo = new todo($('.todo-input-title').val(), $('.todo-input-body').val());
-  var currentArray = pullGlobalArrayFromLocalStorage();
+  
+  const newtodo = new todo($('.todo-input-title').val(), $('.todo-input-body').val());
+  const currentArray = pullGlobalArrayFromLocalStorage();
 
   createBox(newtodo);
   currentArray.push(newtodo);
@@ -90,9 +91,11 @@ function clearInputs() {
 $('.search-bar-input').on('keyup',searchFunction)
 //filter for search
 function searchFunction() {
-  var currentInputField = $(this).val().toUpperCase();
-  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  var matchingtodos = globalArrayPulledFromLocalStorage.filter(function(element){
+
+  const currentInputField = $(this).val().toUpperCase();
+  const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
+  const matchingtodos = globalArrayPulledFromLocalStorage.filter(function(element){
+
   return element.title.toUpperCase().includes(currentInputField) ||
   element.body.toUpperCase().includes(currentInputField)||
   element.quality.toUpperCase().includes(currentInputField);
@@ -107,11 +110,12 @@ function createSearchBoxes(matchingtodos) {
   })};
 
 // DELETE BUTTON EVENT LISTENER
+
 $('.bottom').on('click', '.todo-box-delete-button', todoDelete)
 //find todo to delete and update local storage
 function todoDelete(e){
-  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  var key = $(this).closest('article').find('.todo-box-id-hidden').text();
+  const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
+  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
   globalArrayPulledFromLocalStorage.forEach(function(todo, index) {
     if (key == todo.id) {
       globalArrayPulledFromLocalStorage.splice(index, 1)
@@ -128,9 +132,10 @@ function remove (e){
 
 $('.bottom').on('click','.todo-box-upvote-button', function() {
 
-  var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  var key = $(this).closest('article').find('.todo-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(object){
+  const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
+  const index = parsedGlobalArray.findIndex(function(object){
+
     return object.id === key;
   })
 
@@ -147,10 +152,12 @@ $('.bottom').on('click','.todo-box-upvote-button', function() {
 })
 
 // DOWNVOTE BUTTON EVENT LISTENER
+
 $('.bottom').on('click','.todo-box-downvote-button', function() {
-  var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  var key = $(this).closest('article').find('.todo-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(object){
+  const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
+  const index = parsedGlobalArray.findIndex(function(object){
+
     return object.id === key;
   })
 
@@ -164,6 +171,7 @@ $('.bottom').on('click','.todo-box-downvote-button', function() {
       pushGlobalArrayToLocalStorage(parsedGlobalArray);
   }
 })
+
 
 //el for todo updates
 $('.bottom').on('keyup', '.todo-box-text, .todo-box-header', todoUpdate)
@@ -180,10 +188,10 @@ function retrunBtnBlur (event) {
   }}
 //logic for card input fields and push array back to storage
 function manageFields (e) {
-  var parsedGlobalArray = pullGlobalArrayFromLocalStorage()
-  var id = $(event.target).closest('.todo-box')[0].id;
-  var body = $(event.target).closest('.todo-box').find('.todo-box-text').text();
-  var title = $(event.target).closest('.todo-box').find('.todo-box-header').text();
+  const parsedGlobalArray = pullGlobalArrayFromLocalStorage()
+  const id = $(event.target).closest('.todo-box')[0].id;
+  const body = $(event.target).closest('.todo-box').find('.todo-box-text').text();
+  const title = $(event.target).closest('.todo-box').find('.todo-box-header').text();
   parsedGlobalArray.forEach(function(card) {
     if (card.id == id) {
       card.body = body;
@@ -195,6 +203,7 @@ pushGlobalArrayToLocalStorage(parsedGlobalArray)
 ;
 //need to change how this works. Can be put into the HTML from my understanding.
 function createBox (todo) {
+
 $('.bottom').prepend(`
   <article id="${todo.id}" class="todo-box">
   <p class="todo-box-id-hidden">${todo.id}</p>
@@ -217,5 +226,6 @@ function pushGlobalArrayToLocalStorage(array) {
 };
 
 function pullGlobalArrayFromLocalStorage() {
-  var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
-  return globalArrayPulledFromLocalStorage;}
+  const globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
+  return globalArrayPulledFromLocalStorage;
+}
