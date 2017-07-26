@@ -36,9 +36,12 @@ function loadEverything() {
     localStorage.setItem("globalArray", JSON.stringify(newArray));
   } else {
     const stateArray = pullGlobalArrayFromLocalStorage();
-    for (var i = 0; i < stateArray.length; i++) {
-      createBox(stateArray[i]);
-      enebleButton()
+    const notCompleted = stateArray.filter(function(element){
+      return !element.completed 
+  })
+    for (var i = 0; i < notCompleted.length; i++) {
+      createBox(notCompleted[i]);
+      enableButton();
     }
   }
 }
@@ -47,7 +50,8 @@ function todo(title, body) {
   this.id = generateID(),
   this.title = title,
   this.body = body,
-  this.quality = 'None';
+  this.quality = 'None',
+  this.completed = ""
 
 }
 
@@ -61,9 +65,9 @@ function generateID() {
    ------------------- */
 
 // INPUT FIELD EVENT LISTENER
-  $(".todo-input-title, .todo-input-body").keyup(enebleButton)
+  $(".todo-input-title, .todo-input-body").keyup(enableButton)
 
-function enebleButton(){
+function enableButton(){
   if ($('.todo-input-title').val() !== '' &&
   $('.todo-input-body').val() !== '' ){
     $('.todo-input-save-button').attr('disabled', false)
@@ -89,7 +93,7 @@ function clearInputs() {
   $('.todo-input-title').val('');
   $('.todo-input-body').val('');
   $('.todo-input-title').focus();
-  enebleButton();
+  enableButton();
 }
 
 // SEARCH BAR EVENT LISTENER
@@ -237,7 +241,7 @@ pushGlobalArrayToLocalStorage(parsedGlobalArray)
 
 function createBox (todo) {
 $('.bottom').prepend(`
-  <article id="${todo.id}" class="todo-box">
+  <article id="${todo.id}" class="todo-box ${todo.completed}">
   <p class="todo-box-id-hidden">${todo.id}</p>
   <div class="todo-box-top-line">
     <h2 class="todo-box-header" contenteditable="true">${todo.title}</h2>
@@ -262,8 +266,27 @@ function pullGlobalArrayFromLocalStorage() {
   return globalArrayPulledFromLocalStorage;
 }
 
-$('.bottom').on('click', '.completed-text', toggleComplete)
+$('.bottom').on('click', '.completed-text', toggleCompleted)
 
-function toggleComplete() {
+function toggleCompleted() {
   $(this).closest('article').toggleClass('completed');
+  const domID = $(this).closest('article').prop('id')
+  const currentArray = pullGlobalArrayFromLocalStorage();
+
+  const currentIndex = currentArray.findIndex(function(object) {
+    return object.id === domID;
+  })
+
+  if (!currentArray[currentIndex].completed) {
+    currentArray[currentIndex].completed = "completed"
+  } else {
+    currentArray[currentIndex].completed = ""
+  }
+  console.log(currentArray[currentIndex])
+  pushGlobalArrayToLocalStorage(currentArray);
+
+}
+
+function filterCompleted() {
+
 }
