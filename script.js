@@ -38,6 +38,7 @@ function loadEverything() {
     const stateArray = pullGlobalArrayFromLocalStorage();
     for (var i = 0; i < stateArray.length; i++) {
       createBox(stateArray[i]);
+      enebleButton()
     }
   }
 }
@@ -88,6 +89,7 @@ function clearInputs() {
   $('.todo-input-title').val('');
   $('.todo-input-body').val('');
   $('.todo-input-title').focus();
+  enebleButton();
 }
 
 // SEARCH BAR EVENT LISTENER
@@ -97,7 +99,7 @@ function searchFunction() {
 
   const currentInputField = $(this).val().toUpperCase();
   const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  const matchingtodos = globalArrayPulledFromLocalStorage.filter(function(element){
+  const matchingTodos = globalArrayPulledFromLocalStorage.filter(function(element){
 
   return element.title.toUpperCase().includes(currentInputField) ||
   element.body.toUpperCase().includes(currentInputField)||
@@ -109,7 +111,8 @@ function searchFunction() {
 function createfilterBoxes(matchingTodos) {
   $('.todo-box').remove();
   matchingTodos.forEach(function(todo){
-    createBox (todo)
+    console.log(todo)
+    createBox(todo)
   })};
 
   //filter by inportance buttons
@@ -221,14 +224,33 @@ pushGlobalArrayToLocalStorage(parsedGlobalArray)
 };
 
 
+// function createBox (todo) {
+//   $template = $('#hidden-template').clone()
+//   console.log($template)
+//   $template.attr('id', todo.id)
+//   $template.find('.todo-box-id-hidden').text(todo.id)
+//   $template.find('.todo-box-header').text(todo.title)
+//   $template.find('.todo-box-text').text(todo.body)
+//   $template.find('.todo-box-quality-value').text(todo.quality)
+//   $('.bottom').prepend($template);
+// }
+
 function createBox (todo) {
-  $template = $('#hidden-template').clone()
-  $template.attr('id', todo.id)
-  $template.find('.todo-box-id-hidden').text(todo.id)
-  $template.find('.todo-box-header').text(todo.title)
-  $template.find('.todo-box-text').text(todo.body)
-  $template.find('.todo-box-quality-value').text(todo.quality)
-  $('.bottom').prepend($template);
+$('.bottom').prepend(`
+  <article id="${todo.id}" class="todo-box">
+  <p class="todo-box-id-hidden">${todo.id}</p>
+  <div class="todo-box-top-line">
+    <h2 class="todo-box-header" contenteditable="true">${todo.title}</h2>
+    <div class="todo-box-delete-button"></div>
+  </div>
+  <p class="todo-box-text" contenteditable="true">${todo.body}</p>
+  <div class="todo-box-bottom-line">
+    <div class="todo-box-upvote-button icon"></div>
+    <div class="todo-box-downvote-button icon"></div>
+    <p class="todo-box-quality">quality: <span class="todo-box-quality-value">${todo.quality}</span></p>
+  </div>
+</article>
+  `);
 }
 
 function pushGlobalArrayToLocalStorage(array) {

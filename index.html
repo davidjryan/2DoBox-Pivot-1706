@@ -18,19 +18,19 @@
         </form>
       </section>
       <section class="middle">
-        <form class="filter-bar">
-          <input class="filter-bar-input" type="text" placeholder="Filter" />
+        <form class="search-bar">
+          <input class="search-bar-input" type="text" placeholder="Search" />
           <div class="btn-wrap">
-          <button class="critical-btn filter-btns" type="button" name="button">Critical</button>
-          <button class="high-btn filter-btns" type="button" name="button">High</button>
-          <button class="normal-btn filter-btns" type="button" name="button">Normal</button>
-          <button class="low-btn filter-btns" type="button" name="button">Low</button>
-          <button class="none-btn filter-btns" type="button" name="button">None</button>
+            <button class="critical-btn quality-btn"type="button" name="button">Critical</button>
+            <button class="high-btn quality-btn"type="button" name="button">High</button>
+            <button class="normal-btn quality-btn"type="button" name="button">Normal</button>
+            <button class="low-btn quality-btn"type="button" name="button">Low</button>
+            <button class="none-btn quality-btn"type="button" name="button">None</button>
           </div>
         </form>
       </section>
       <section class="bottom">
-        <article class="todo-box">
+        <article id="hidden-template"class="todo-box">
           <p class="todo-box-id-hidden">${todo.id}</p>
           <div class="todo-box-top-line">
             <h2 class="todo-box-header">${todo.title}</h2>
