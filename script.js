@@ -12,7 +12,7 @@
       * Upvote
       * Downvote
     3. Save Button Event Listener
-    4. Search Bar Event Listener
+    4. filter Bar Event Listener
     5. Delete Button Event Listener
     6. Upvote Event Listener
     7. Downvote Event Listener
@@ -38,6 +38,7 @@ function loadEverything() {
     const stateArray = pullGlobalArrayFromLocalStorage();
     for (var i = 0; i < stateArray.length; i++) {
       createBox(stateArray[i]);
+      enebleButton()
     }
   }
 }
@@ -46,7 +47,7 @@ function todo(title, body) {
   this.id = generateID(),
   this.title = title,
   this.body = body,
-  this.quality = 'swill';
+  this.quality = 'None';
 
 }
 
@@ -60,18 +61,21 @@ function generateID() {
    ------------------- */
 
 // INPUT FIELD EVENT LISTENER
-  $(".todo-input-title, .todo-input-body").keyup(inputTitleDisabled)
+  $(".todo-input-title, .todo-input-body").keyup(enebleButton)
 
-    function inputTitleDisabled() {
-  $(".todo-input-save-button").prop("disabled", !this.value);
-};
+function enebleButton(){
+  if ($('.todo-input-title').val() !== '' &&
+  $('.todo-input-body').val() !== '' ){
+    $('.todo-input-save-button').attr('disabled', false)
+   }else {$('.todo-input-save-button').attr('disabled', true)}
+}
 
 // SAVE BUTTON EVENT LISTENER
 $('.todo-input-save-button').on('click',newtodo)
 //creat full new todo and push to ls
 function newtodo(e) {
   e.preventDefault();
-  
+
   const newtodo = new todo($('.todo-input-title').val(), $('.todo-input-body').val());
   const currentArray = pullGlobalArrayFromLocalStorage();
 
@@ -85,6 +89,7 @@ function clearInputs() {
   $('.todo-input-title').val('');
   $('.todo-input-body').val('');
   $('.todo-input-title').focus();
+  enebleButton();
 }
 
 // SEARCH BAR EVENT LISTENER
@@ -94,20 +99,37 @@ function searchFunction() {
 
   const currentInputField = $(this).val().toUpperCase();
   const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  const matchingtodos = globalArrayPulledFromLocalStorage.filter(function(element){
+  const matchingTodos = globalArrayPulledFromLocalStorage.filter(function(element){
 
   return element.title.toUpperCase().includes(currentInputField) ||
   element.body.toUpperCase().includes(currentInputField)||
   element.quality.toUpperCase().includes(currentInputField);
   })
-  createSearchBoxes(matchingtodos)
+  createfilterBoxes(matchingTodos)
 }
-//display searched todos function
-function createSearchBoxes(matchingtodos) {
+//display filtered todos function
+function createfilterBoxes(matchingTodos) {
   $('.todo-box').remove();
-  matchingtodos.forEach(function(todo){
+  matchingTodos.forEach(function(todo){
+    console.log(todo)
     createBox(todo)
   })};
+
+  //filter by inportance buttons
+  $('.middle').on('click', '.critical-btn, .high-btn, .normal-btn, .low-btn, .none-btn', filterBtns)
+
+function filterBtns (event){
+  event.preventDefault()
+  var parsedGlobalArray = pullGlobalArrayFromLocalStorage()
+  var importance = $(event.target).text()
+  console.log(importance)
+  var matchingTodos = parsedGlobalArray.filter(function(element){
+  return element.quality.includes(importance)
+  });
+    console.log(matchingTodos)
+
+  createfilterBoxes(matchingTodos)
+}
 
 // DELETE BUTTON EVENT LISTENER
 
@@ -139,14 +161,14 @@ $('.bottom').on('click','.todo-box-upvote-button', function() {
     return object.id === key;
   })
 
-  if (parsedGlobalArray[index].quality === 'swill') {
-    parsedGlobalArray[index].quality = 'plausible';
-    $(this).closest('div').find('span').text('plausible');
+  if (parsedGlobalArray[index].quality === 'None') {
+    parsedGlobalArray[index].quality = 'Normal';
+    $(this).closest('div').find('span').text('Critical');
     pushGlobalArrayToLocalStorage(parsedGlobalArray);
 
-  } else if (parsedGlobalArray[index].quality === 'plausible'){
-      parsedGlobalArray[index].quality = 'genius';
-      $(this).closest('div').find('span').text('genius');
+  } else if (parsedGlobalArray[index].quality === 'Normal'){
+      parsedGlobalArray[index].quality = 'Critical';
+      $(this).closest('div').find('span').text('Critical');
       pushGlobalArrayToLocalStorage(parsedGlobalArray);
   }
 })
@@ -161,13 +183,13 @@ $('.bottom').on('click','.todo-box-downvote-button', function() {
     return object.id === key;
   })
 
-  if (parsedGlobalArray[index].quality === 'genius') {
-    parsedGlobalArray[index].quality = 'plausible';
-    $(this).closest('div').find('span').text('plausible');
+  if (parsedGlobalArray[index].quality === 'Critical') {
+    parsedGlobalArray[index].quality = 'Normal';
+    $(this).closest('div').find('span').text('Normal');
     pushGlobalArrayToLocalStorage(parsedGlobalArray);
-  } else if (parsedGlobalArray[index].quality === 'plausible'){
-      parsedGlobalArray[index].quality = 'swill';
-      $(this).closest('div').find('span').text('swill');
+  } else if (parsedGlobalArray[index].quality === 'Normal'){
+      parsedGlobalArray[index].quality = 'None';
+      $(this).closest('div').find('span').text('None');
       pushGlobalArrayToLocalStorage(parsedGlobalArray);
   }
 })
@@ -200,10 +222,20 @@ function manageFields (e) {
 pushGlobalArrayToLocalStorage(parsedGlobalArray)
   })
 };
-;
-//need to change how this works. Can be put into the HTML from my understanding.
-function createBox (todo) {
 
+
+// function createBox (todo) {
+//   $template = $('#hidden-template').clone()
+//   console.log($template)
+//   $template.attr('id', todo.id)
+//   $template.find('.todo-box-id-hidden').text(todo.id)
+//   $template.find('.todo-box-header').text(todo.title)
+//   $template.find('.todo-box-text').text(todo.body)
+//   $template.find('.todo-box-quality-value').text(todo.quality)
+//   $('.bottom').prepend($template);
+// }
+
+function createBox (todo) {
 $('.bottom').prepend(`
   <article id="${todo.id}" class="todo-box">
   <p class="todo-box-id-hidden">${todo.id}</p>

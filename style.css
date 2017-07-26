@@ -59,7 +59,7 @@ main {
    ======= */
 
  .top{
-   height: 38.5vh;
+   /*height: 38.5vh;*/
    width: 100%;
    display: flex;
    justify-content: center;
@@ -138,7 +138,7 @@ font-weight: 700;
    ========== */
 
 .middle {
-  height: 10vh;
+  /*height: 10vh;*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -154,9 +154,26 @@ font-weight: 700;
   margin: 5px 0 10px 0;
 }
 
+.btn-wrap{
+  display: flex;
+  justify-content: space-between;
+}
+
+.quality-btn{
+  width: 18%;
+  background-color: #00A79D;
+  border: none;
+  margin-top: 1.5em;
+  padding: .5em 0 .5em 0;
+}
+
 /* ==========
    = BOTTOM =
    ========== */
+
+#hidden-template{
+  display:hidden
+}
 
 .bottom {
   display: flex;
