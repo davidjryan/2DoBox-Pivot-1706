@@ -12,7 +12,7 @@
       * Upvote
       * Downvote
     3. Save Button Event Listener
-    4. Search Bar Event Listener
+    4. filter Bar Event Listener
     5. Delete Button Event Listener
     6. Upvote Event Listener
     7. Downvote Event Listener
@@ -23,7 +23,7 @@
     * createBox()
     * pushGlobalArrayToLocalStorage()
     * pullGlobalArrayFromLocalStorage()
-    * loadSavedIdeas()
+    * loadSavedtodos()
 
 */
 
@@ -42,18 +42,11 @@ function loadEverything() {
   }
 }
 
-// var globalArray = [];
-// pullGlobalArrayFromLocalStorage();
-//
-// $(function () {
-//   loadSavedIdeas();
-// });
-
-function Idea(title, body) {
+function todo(title, body) {
   this.id = generateID(),
   this.title = title,
   this.body = body,
-  this.quality = 'swill';
+  this.quality = 'None';
 
 }
 
@@ -67,216 +60,175 @@ function generateID() {
    ------------------- */
 
 // INPUT FIELD EVENT LISTENER
-  $(".idea-input-title, .idea-input-body").keyup(inputTitleDisabled)
+  $(".todo-input-title, .todo-input-body").keyup(enebleButton)
 
-    function inputTitleDisabled() {
-  $(".idea-input-save-button").prop("disabled", !this.value);
-};
-
-//   $(".idea-input-body").keyup(
-//
-//     function() {
-//   $(".idea-input-save-button").prop("disabled", !this.value);
-// });
-
-// BUTTON HOVER EVENT LISTENER
-
-// delete
-// $('.bottom').on('mouseover', '.idea-box-delete-button', function() {
-//   $(this).prop("src", "images/delete-hover.svg");
-// })
-//
-// $('.bottom').on('mouseleave', '.idea-box-delete-button', function() {
-//   $(this).prop("src", "images/delete.svg");
-// })
-
-// upvote
-// $('.bottom').on('mouseover', '.idea-box-upvote-button', function() {
-//   $(this).prop("src", "images/upvote-hover.svg");
-// })
-//
-// $('.bottom').on('mouseleave', '.idea-box-upvote-button', function() {
-//   $(this).prop("src", "images/upvote.svg");
-// })
-
-// downvote
-// $('.bottom').on('mouseover', '.idea-box-downvote-button', function() {
-//   $(this).prop("src", "images/downvote-hover.svg");
-// })
-//
-// $('.bottom').on('mouseleave', '.idea-box-downvote-button', function() {
-//   $(this).prop("src", "images/downvote.svg");
-// })
+function enebleButton(){
+  if ($('.todo-input-title').val() !== '' &&
+  $('.todo-input-body').val() !== '' ){
+    $('.todo-input-save-button').attr('disabled', false)
+   }else {$('.todo-input-save-button').attr('disabled', true)}
+}
 
 // SAVE BUTTON EVENT LISTENER
-$('.idea-input-save-button').on('click', function(e) {
+$('.todo-input-save-button').on('click',newtodo)
+//creat full new todo and push to ls
+function newtodo(e) {
   e.preventDefault();
-  const newIdea = new Idea($('.idea-input-title').val(), $('.idea-input-body').val());
+
+  const newtodo = new todo($('.todo-input-title').val(), $('.todo-input-body').val());
   const currentArray = pullGlobalArrayFromLocalStorage();
 
-  createBox(newIdea);
-  currentArray.push(newIdea);
+  createBox(newtodo);
+  currentArray.push(newtodo);
   pushGlobalArrayToLocalStorage(currentArray);
   clearInputs();
-
-});
-
+};
+//clear inputs
 function clearInputs() {
-  $('.idea-input-title').val('');
-  $('.idea-input-body').val('');
-  $('.idea-input-title').focus();
+  $('.todo-input-title').val('');
+  $('.todo-input-body').val('');
+  $('.todo-input-title').focus();
 }
 
 // SEARCH BAR EVENT LISTENER
 $('.search-bar-input').on('keyup',searchFunction)
-
+//filter for search
 function searchFunction() {
+
   const currentInputField = $(this).val().toUpperCase();
   const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  const matchingIdeas = globalArrayPulledFromLocalStorage.filter(function(element){
+  const matchingtodos = globalArrayPulledFromLocalStorage.filter(function(element){
+
   return element.title.toUpperCase().includes(currentInputField) ||
   element.body.toUpperCase().includes(currentInputField)||
   element.quality.toUpperCase().includes(currentInputField);
   })
-  createSearchBoxes(matchingIdeas)
+  createfilterBoxes(matchingTodos)
 }
-
-function createSearchBoxes(matchingIdeas) {
-  $('.idea-box').remove();
-  matchingIdeas.forEach(function(idea){
-    createBox(idea)
+//display filtered todos function
+function createfilterBoxes(matchingTodos) {
+  $('.todo-box').remove();
+  matchingTodos.forEach(function(todo){
+    createBox (todo)
   })};
 
+  //filter by inportance buttons
+  $('.middle').on('click', '.critical-btn, .high-btn, .normal-btn, .low-btn, .none-btn', filterBtns)
 
+function filterBtns (event){
+  event.preventDefault()
+  var parsedGlobalArray = pullGlobalArrayFromLocalStorage()
+  var importance = $(event.target).text()
+  console.log(importance)
+  var matchingTodos = parsedGlobalArray.filter(function(element){
+  return element.quality.includes(importance)
+  });
+    console.log(matchingTodos)
 
-
+  createfilterBoxes(matchingTodos)
+}
 
 // DELETE BUTTON EVENT LISTENER
-$('.bottom').on('click', '.idea-box-delete-button', ideaDelete)
 
-function ideaDelete(e){
+$('.bottom').on('click', '.todo-box-delete-button', todoDelete)
+//find todo to delete and update local storage
+function todoDelete(e){
   const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  const key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  globalArrayPulledFromLocalStorage.forEach(function(idea, index) {
-    if (key == idea.id) {
+  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
+  globalArrayPulledFromLocalStorage.forEach(function(todo, index) {
+    if (key == todo.id) {
       globalArrayPulledFromLocalStorage.splice(index, 1)
     }})
-
-  // var index = globalArrayPulledFromLocalStorage.findIndex(function(element){
-  //   return element.id === key;
-  // })
-
-  // globalArrayPulledFromLocalStorage.splice(index, 1);
-  // globalArray = globalArrayPulledFromLocalStorage;
-  // var stringifiedGlobalArray = JSON.stringify(globalArray);
-  // localStorage.setItem('globalArray', stringifiedGlobalArray);
   pushGlobalArrayToLocalStorage(globalArrayPulledFromLocalStorage)
   remove (e)
-  // $(this).closest('article').remove();
 };
-
+// remove todo function
 function remove (e){
   $(e.target).closest('article').remove();
 };
 
 // UPVOTE BUTTON EVENT LISTENER
 
-$('.bottom').on('click','.idea-box-upvote-button', function() {
+$('.bottom').on('click','.todo-box-upvote-button', function() {
 
   const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  const key = $(this).closest('article').find('.idea-box-id-hidden').text();
+  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
   const index = parsedGlobalArray.findIndex(function(object){
+
     return object.id === key;
   })
 
-  if (parsedGlobalArray[index].quality === 'swill') {
-    parsedGlobalArray[index].quality = 'plausible';
-    $(this).closest('div').find('span').text('plausible');
+  if (parsedGlobalArray[index].quality === 'None') {
+    parsedGlobalArray[index].quality = 'Normal';
+    $(this).closest('div').find('span').text('Critical');
     pushGlobalArrayToLocalStorage(parsedGlobalArray);
 
-  } else if (parsedGlobalArray[index].quality === 'plausible'){
-      parsedGlobalArray[index].quality = 'genius';
-      $(this).closest('div').find('span').text('genius');
+  } else if (parsedGlobalArray[index].quality === 'Normal'){
+      parsedGlobalArray[index].quality = 'Critical';
+      $(this).closest('div').find('span').text('Critical');
       pushGlobalArrayToLocalStorage(parsedGlobalArray);
   }
 })
 
 // DOWNVOTE BUTTON EVENT LISTENER
-$('.bottom').on('click','.idea-box-downvote-button', function() {
+
+$('.bottom').on('click','.todo-box-downvote-button', function() {
   const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  const key = $(this).closest('article').find('.idea-box-id-hidden').text();
+  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
   const index = parsedGlobalArray.findIndex(function(object){
+
     return object.id === key;
   })
 
-  if (parsedGlobalArray[index].quality === 'genius') {
-    parsedGlobalArray[index].quality = 'plausible';
-    $(this).closest('div').find('span').text('plausible');
+  if (parsedGlobalArray[index].quality === 'Critical') {
+    parsedGlobalArray[index].quality = 'Normal';
+    $(this).closest('div').find('span').text('Normal');
     pushGlobalArrayToLocalStorage(parsedGlobalArray);
-  } else if (parsedGlobalArray[index].quality === 'plausible'){
-      parsedGlobalArray[index].quality = 'swill';
-      $(this).closest('div').find('span').text('swill');
+  } else if (parsedGlobalArray[index].quality === 'Normal'){
+      parsedGlobalArray[index].quality = 'None';
+      $(this).closest('div').find('span').text('None');
       pushGlobalArrayToLocalStorage(parsedGlobalArray);
   }
 })
 
-// TITLE EDIT EVENT LISTENER
-// $('.bottom').on('click', '.idea-box-header', function() {
-//    $(this).prop("contenteditable") === true ? null : $(this).prop("contenteditable", true);
 
-   $('.bottom').on('blur', '.idea-box-header, .idea-box-text', function(e) {
-      const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-      const key = $(this).closest('article').find('.idea-box-id-hidden').text();
-      const index = parsedGlobalArray.findIndex(function(object){
-        return object.id === key;
-      })
+//el for todo updates
+$('.bottom').on('keyup', '.todo-box-text, .todo-box-header', todoUpdate)
+//function for event listener todo updates
+function todoUpdate (event){
+  retrunBtnBlur (event)
+  manageFields (event)
+}
+//return button to blur, not working currently.
+function retrunBtnBlur (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    this.blur();
+  }}
+//logic for card input fields and push array back to storage
+function manageFields (e) {
+  const parsedGlobalArray = pullGlobalArrayFromLocalStorage()
+  const id = $(event.target).closest('.todo-box')[0].id;
+  const body = $(event.target).closest('.todo-box').find('.todo-box-text').text();
+  const title = $(event.target).closest('.todo-box').find('.todo-box-header').text();
+  parsedGlobalArray.forEach(function(card) {
+    if (card.id == id) {
+      card.body = body;
+      card.title = title;
+    }
+pushGlobalArrayToLocalStorage(parsedGlobalArray)
+  })
+};
 
-      parsedGlobalArray[index].title = $(e.target).closest('.idea-box').find('.idea-box-header').text();
-      parsedGlobalArray[index].body = $(e.target).closest('.idea-box').find('.idea-box-text').text();
-      pushGlobalArrayToLocalStorage(parsedGlobalArray);
-    // if (parsedGlobalArray[index].title == $('.idea-box-header').text()){
-    //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
-    // }else if (parsedGlobalArray[index].body = $('.idea-box-text').text()) {
-    //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
-    //   }
-  });
 
-
-
-// BODY EDIT EVENT LISTENER
-// $('.bottom').on('click', '.idea-box-text', function() {
-//   ($(this).prop("contenteditable") === true) ? null: $(this).prop("contenteditable", true);
-//
-//   $(this).on('blur', function() {
-//    var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-//    var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-//    var index = parsedGlobalArray.findIndex(function(object){
-//      return object.id === key;
-//    })
-//
-//    parsedGlobalArray[index].body = $(this).text();
-//    pushGlobalArrayToLocalStorage(parsedGlobalArray);
-//  })
-// })
-
-// FUNCTIONS
-
-function createBox (idea) {
-$('.bottom').prepend(`
-  <article class="idea-box">
-  <p class="idea-box-id-hidden">${idea.id}</p>
-  <div class="idea-box-top-line">
-    <h2 class="idea-box-header" contenteditable="true">${idea.title}</h2>
-    <div class="idea-box-delete-button"></div>
-  </div>
-  <p class="idea-box-text" contenteditable="true">${idea.body}</p>
-  <div class="idea-box-bottom-line">
-    <div class="idea-box-upvote-button icon"></div>
-    <div class="idea-box-downvote-button icon"></div>
-    <p class="idea-box-quality">quality: <span class="idea-box-quality-value">${idea.quality}</span></p><p class='completed'>Completed</p>
-  </div>
-</article>
-  `);
+function createBox (todo) {
+  $template = $('#hidden-template').clone()
+  $template.attr('id', todo.id)
+  $template.find('.todo-box-id-hidden').text(todo.id)
+  $template.find('.todo-box-header').text(todo.title)
+  $template.find('.todo-box-text').text(todo.body)
+  $template.find('.todo-box-quality-value').text(todo.quality)
+  $('.bottom').prepend($template);
 }
 
 function pushGlobalArrayToLocalStorage(array) {
@@ -287,18 +239,3 @@ function pullGlobalArrayFromLocalStorage() {
   const globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
   return globalArrayPulledFromLocalStorage;
 }
-
-
-
-
-// function loadSavedIdeas (){
-//   if (localStorage.getItem('globalArray') !== null){
-//
-//     var globalArrayPulledFromLocalStorage = localStorage.getItem('globalArray');
-//     var parsedGlobalArray = JSON.parse(globalArrayPulledFromLocalStorage);
-//
-//     for(var i = 0; i < parsedGlobalArray.length; i++) {
-//       createBox(parsedGlobalArray[i]);
-//     }
-//   }
-// }
