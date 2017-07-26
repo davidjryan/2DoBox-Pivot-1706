@@ -32,10 +32,10 @@ $(document).ready(loadEverything);
 
 function loadEverything() {
   if(localStorage.getItem("globalArray") === null) {
-    var newArray = [];
+    const newArray = [];
     localStorage.setItem("globalArray", JSON.stringify(newArray));
   } else {
-    var stateArray = pullGlobalArrayFromLocalStorage();
+    const stateArray = pullGlobalArrayFromLocalStorage();
     for (var i = 0; i < stateArray.length; i++) {
       createBox(stateArray[i]);
     }
@@ -111,8 +111,8 @@ function generateID() {
 // SAVE BUTTON EVENT LISTENER
 $('.idea-input-save-button').on('click', function(e) {
   e.preventDefault();
-  var newIdea = new Idea($('.idea-input-title').val(), $('.idea-input-body').val());
-  var currentArray = pullGlobalArrayFromLocalStorage();
+  const newIdea = new Idea($('.idea-input-title').val(), $('.idea-input-body').val());
+  const currentArray = pullGlobalArrayFromLocalStorage();
 
   createBox(newIdea);
   currentArray.push(newIdea);
@@ -131,9 +131,9 @@ function clearInputs() {
 $('.search-bar-input').on('keyup',searchFunction)
 
 function searchFunction() {
-  var currentInputField = $(this).val().toUpperCase();
-  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  var matchingIdeas = globalArrayPulledFromLocalStorage.filter(function(element){
+  const currentInputField = $(this).val().toUpperCase();
+  const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
+  const matchingIdeas = globalArrayPulledFromLocalStorage.filter(function(element){
   return element.title.toUpperCase().includes(currentInputField) ||
   element.body.toUpperCase().includes(currentInputField)||
   element.quality.toUpperCase().includes(currentInputField);
@@ -155,8 +155,8 @@ function createSearchBoxes(matchingIdeas) {
 $('.bottom').on('click', '.idea-box-delete-button', ideaDelete)
 
 function ideaDelete(e){
-  var globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
-  var key = $(this).closest('article').find('.idea-box-id-hidden').text();
+  const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
+  const key = $(this).closest('article').find('.idea-box-id-hidden').text();
   globalArrayPulledFromLocalStorage.forEach(function(idea, index) {
     if (key == idea.id) {
       globalArrayPulledFromLocalStorage.splice(index, 1)
@@ -183,9 +183,9 @@ function remove (e){
 
 $('.bottom').on('click','.idea-box-upvote-button', function() {
 
-  var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(object){
+  const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+  const key = $(this).closest('article').find('.idea-box-id-hidden').text();
+  const index = parsedGlobalArray.findIndex(function(object){
     return object.id === key;
   })
 
@@ -203,9 +203,9 @@ $('.bottom').on('click','.idea-box-upvote-button', function() {
 
 // DOWNVOTE BUTTON EVENT LISTENER
 $('.bottom').on('click','.idea-box-downvote-button', function() {
-  var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-  var index = parsedGlobalArray.findIndex(function(object){
+  const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+  const key = $(this).closest('article').find('.idea-box-id-hidden').text();
+  const index = parsedGlobalArray.findIndex(function(object){
     return object.id === key;
   })
 
@@ -225,15 +225,15 @@ $('.bottom').on('click','.idea-box-downvote-button', function() {
 //    $(this).prop("contenteditable") === true ? null : $(this).prop("contenteditable", true);
 
    $('.bottom').on('blur', '.idea-box-header, .idea-box-text', function(e) {
-      var parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-      var key = $(this).closest('article').find('.idea-box-id-hidden').text();
-      var index = parsedGlobalArray.findIndex(function(object){
+      const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+      const key = $(this).closest('article').find('.idea-box-id-hidden').text();
+      const index = parsedGlobalArray.findIndex(function(object){
         return object.id === key;
       })
 
       parsedGlobalArray[index].title = $(e.target).closest('.idea-box').find('.idea-box-header').text();
       parsedGlobalArray[index].body = $(e.target).closest('.idea-box').find('.idea-box-text').text();
-      pushGlobalArrayToLocalStorage(parsedGlobalArray)
+      pushGlobalArrayToLocalStorage(parsedGlobalArray);
     // if (parsedGlobalArray[index].title == $('.idea-box-header').text()){
     //     pushGlobalArrayToLocalStorage(parsedGlobalArray)
     // }else if (parsedGlobalArray[index].body = $('.idea-box-text').text()) {
@@ -273,7 +273,7 @@ $('.bottom').prepend(`
   <div class="idea-box-bottom-line">
     <div class="idea-box-upvote-button icon"></div>
     <div class="idea-box-downvote-button icon"></div>
-    <p class="idea-box-quality">quality: <span class="idea-box-quality-value">${idea.quality}</span></p>
+    <p class="idea-box-quality">quality: <span class="idea-box-quality-value">${idea.quality}</span></p><p class='completed'>Completed</p>
   </div>
 </article>
   `);
@@ -284,8 +284,9 @@ function pushGlobalArrayToLocalStorage(array) {
 };
 
 function pullGlobalArrayFromLocalStorage() {
-  var globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
-  return globalArrayPulledFromLocalStorage;}
+  const globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
+  return globalArrayPulledFromLocalStorage;
+}
 
 
 
