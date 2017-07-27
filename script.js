@@ -37,7 +37,7 @@ function loadEverything() {
   } else {
     const stateArray = pullGlobalArrayFromLocalStorage();
     const notCompleted = stateArray.filter(function(element){
-      return !element.completed 
+      return !element.completed
   })
     for (var i = 0; i < notCompleted.length; i++) {
       createBox(notCompleted[i]);
@@ -287,6 +287,16 @@ function toggleCompleted() {
 
 }
 
-function filterCompleted() {
+$('.showtodo').on('click', filterCompleted)
 
+function filterCompleted() {
+  event.preventDefault()
+  const stateArray = pullGlobalArrayFromLocalStorage();
+  const completed = stateArray.filter(function(element){
+    return element.completed
+})
+  for (var i = 0; i < completed.length; i++) {
+    createBox(completed[i]);
+    enableButton();
+  }
 }
