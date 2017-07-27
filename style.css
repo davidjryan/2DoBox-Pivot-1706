@@ -111,12 +111,13 @@ font-weight: 700;
   height: 35px;
 }
 
-.todo-input-save-button{
+.inputbutton {
   background-color: #00A79D;
   color: #FFF;
   border: none;
   font-size: 16px;
   height: 35px;
+  outline: none;
 }
 
 .todo-input-save-button:hover {
@@ -129,7 +130,7 @@ font-weight: 700;
 
 .todo-input-title,
 .todo-input-body,
-.todo-input-save-button {
+.inputbutton {
   margin-top: 10px;
 }
 
@@ -285,6 +286,29 @@ font-weight: 700;
   white-space: pre-wrap;
 }
 
+.completed-text {
+  margin-left: auto;
+  border: none;
+  background: none;
+  font-size: 14px;
+  outline: none;
+}
+
+.completed {
+  opacity: 0.5;
+}
+
+.completed p {
+  text-decoration: line-through;
+}
+
+.completed h2 {
+  text-decoration: line-through;
+}
+
+.completed button {
+  color: red;
+}
 
 .todo-box-bottom-line p {
   font-family: 'Roboto Slab', serif;
