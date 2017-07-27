@@ -168,6 +168,20 @@ font-weight: 700;
   padding: .5em 0 .5em 0;
 }
 
+.show-more {width: 18%;
+background-color: #00A79D;
+border: none;
+margin-top: 1.5em;
+margin-bottom: 1.5em;
+padding: .5em 0 1.5em 0;
+float: left;
+}
+
+.visability{
+  visibility: hidden;
+}
+
+
 /* ==========
    = BOTTOM =
    ========== */
