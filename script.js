@@ -120,10 +120,10 @@ function createfilterBoxes(matchingTodos) {
 
 function filterBtns (event){
   event.preventDefault()
-  var parsedGlobalArray = pullGlobalArrayFromLocalStorage()
-  var importance = $(event.target).text()
+  const parsedGlobalArray = pullGlobalArrayFromLocalStorage()
+  const importance = $(event.target).text()
   console.log(importance)
-  var matchingTodos = parsedGlobalArray.filter(function(element){
+  const matchingTodos = parsedGlobalArray.filter(function(element){
   return element.quality.includes(importance)
   });
     console.log(matchingTodos)
@@ -152,68 +152,104 @@ function remove (e){
 
 // UPVOTE BUTTON EVENT LISTENER
 
-$('.bottom').on('click','.todo-box-upvote-button', function() {
+$('.bottom').on('click','.todo-box-upvote-button', upVote)
 
-  const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
-  const index = parsedGlobalArray.findIndex(function(object){
+function upVote() {
+  const importanceInput = $(event.target).closest('.todo-box').find('.todo-box-quality-value');
+  const importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical']
+  const currentIndex = importanceArray.indexOf(importanceInput.text())
+  const newQuality = importanceArray[currentIndex + 1];
+  importanceInput.text(newQuality);
+  updateArray(newQuality)
+}
 
-    return object.id === key;
+$('.bottom').on('click','.todo-box-downvote-button', downVote)
+
+function downVote() {
+  const importanceInput = $(event.target).closest('.todo-box').find('.todo-box-quality-value');
+  const importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical']
+  const  currentIndex = importanceArray.indexOf(importanceInput.text())
+  const newQuality = importanceArray[currentIndex - 1];
+  console.log(newQuality)
+  importanceInput.text(newQuality);
+  updateArray(newQuality)
+}
+
+function updateArray(newQuality){
+  const storageArray = pullGlobalArrayFromLocalStorage()
+  const id = $(event.target).closest('.todo-box')[0].id;
+  storageArray.forEach(function(card){
+    if ( id == card.id){
+      card.quality = newQuality;
+    }
   })
+  pushGlobalArrayToLocalStorage(storageArray)
+}
 
-  if (parsedGlobalArray[index].quality === 'None') {
-    parsedGlobalArray[index].quality = 'Normal';
-    $(this).closest('div').find('span').text('Critical');
-    pushGlobalArrayToLocalStorage(parsedGlobalArray);
 
-  } else if (parsedGlobalArray[index].quality === 'Normal'){
-      parsedGlobalArray[index].quality = 'Critical';
-      $(this).closest('div').find('span').text('Critical');
-      pushGlobalArrayToLocalStorage(parsedGlobalArray);
-  }
-})
+
+// $('.bottom').on('click','.todo-box-upvote-button', function() {
+//
+//   const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+//   const key = $(this).closest('article').find('.todo-box-id-hidden').text();
+//   const index = parsedGlobalArray.findIndex(function(object){
+//
+//     return object.id === key;
+//   })
+//
+//   if (parsedGlobalArray[index].quality === 'None') {
+//     parsedGlobalArray[index].quality = 'Normal';
+//     $(this).closest('div').find('span').text('Critical');
+//     pushGlobalArrayToLocalStorage(parsedGlobalArray);
+//
+//   } else if (parsedGlobalArray[index].quality === 'Normal'){
+//       parsedGlobalArray[index].quality = 'Critical';
+//       $(this).closest('div').find('span').text('Critical');
+//       pushGlobalArrayToLocalStorage(parsedGlobalArray);
+//   }
+// })
 
 // DOWNVOTE BUTTON EVENT LISTENER
 
-$('.bottom').on('click','.todo-box-downvote-button', function() {
-  const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
-  const key = $(this).closest('article').find('.todo-box-id-hidden').text();
-  const index = parsedGlobalArray.findIndex(function(object){
-
-    return object.id === key;
-  })
-
-  if (parsedGlobalArray[index].quality === 'Critical') {
-    parsedGlobalArray[index].quality = 'Normal';
-    $(this).closest('div').find('span').text('Normal');
-    pushGlobalArrayToLocalStorage(parsedGlobalArray);
-  } else if (parsedGlobalArray[index].quality === 'Normal'){
-      parsedGlobalArray[index].quality = 'None';
-      $(this).closest('div').find('span').text('None');
-      pushGlobalArrayToLocalStorage(parsedGlobalArray);
-  }
-})
+// $('.bottom').on('click','.todo-box-downvote-button', function() {
+//   const parsedGlobalArray = pullGlobalArrayFromLocalStorage();
+//   const key = $(this).closest('article').find('.todo-box-id-hidden').text();
+//   const index = parsedGlobalArray.findIndex(function(object){
+//
+//     return object.id === key;
+//   })
+//
+//   if (parsedGlobalArray[index].quality === 'Critical') {
+//     parsedGlobalArray[index].quality = 'Normal';
+//     $(this).closest('div').find('span').text('Normal');
+//     pushGlobalArrayToLocalStorage(parsedGlobalArray);
+//   } else if (parsedGlobalArray[index].quality === 'Normal'){
+//       parsedGlobalArray[index].quality = 'None';
+//       $(this).closest('div').find('span').text('None');
+//       pushGlobalArrayToLocalStorage(parsedGlobalArray);
+//   }
+// })
 
 
 //el for todo updates
-$('.bottom').on('keyup', '.todo-box-text, .todo-box-header', todoUpdate)
+$('.bottom').on('keyup', '.todo-box-text, .todo-box-header', manageFields)
 //function for event listener todo updates
-function todoUpdate (event){
-  retrunBtnBlur (event)
-  manageFields (event)
-}
+// function todoUpdate (event){
+//   retrunBtnBlur (event)
+//   manageFields (event)
+// }
 //return button to blur, not working currently.
 function retrunBtnBlur (event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    this.blur();
+  if (event.which === 13) {
+    event.target.blur();
   }}
 //logic for card input fields and push array back to storage
-function manageFields (e) {
+function manageFields (event) {
   const parsedGlobalArray = pullGlobalArrayFromLocalStorage()
   const id = $(event.target).closest('.todo-box')[0].id;
   const body = $(event.target).closest('.todo-box').find('.todo-box-text').text();
   const title = $(event.target).closest('.todo-box').find('.todo-box-header').text();
+  retrunBtnBlur (event)
   parsedGlobalArray.forEach(function(card) {
     if (card.id == id) {
       card.body = body;
