@@ -26,6 +26,16 @@
     * loadSavedtodos()
 
 */
+$(".todo-input-title, .todo-input-body").keyup(enableButton)
+$('.todo-input-save-button').on('click',newtodo)
+$('.search-bar-input').on('keyup',searchFunction)
+$('.middle').on('click', '.critical-btn, .high-btn, .normal-btn, .low-btn, .none-btn', filterBtns)
+$('.bottom').on('click', '.todo-box-delete-button', todoDelete)
+$('.bottom').on('click','.todo-box-upvote-button', upVote)
+$('.bottom').on('click','.todo-box-downvote-button', downVote)
+$('.bottom').on('keyup', '.todo-box-text, .todo-box-header', manageFields)
+$('.bottom').on('click', '.completed-text', toggleCompleted)
+$('.showtodo').on('click', filterCompleted)
 
 // ON PAGE LOAD
 $(document).ready(loadEverything);
@@ -39,7 +49,7 @@ function loadEverything() {
     const notCompleted = stateArray.filter(function(element){
       return !element.completed
   })
-    for (var i = 0; i < notCompleted.length; i++) {
+    for (var i = notCompleted.length - 1; i > notCompleted.length - 10; i--) {
       createBox(notCompleted[i]);
       enableButton();
     }
@@ -65,7 +75,6 @@ function generateID() {
    ------------------- */
 
 // INPUT FIELD EVENT LISTENER
-  $(".todo-input-title, .todo-input-body").keyup(enableButton)
 
 function enableButton(){
   if ($('.todo-input-title').val() !== '' &&
@@ -75,7 +84,7 @@ function enableButton(){
 }
 
 // SAVE BUTTON EVENT LISTENER
-$('.todo-input-save-button').on('click',newtodo)
+
 //creat full new todo and push to ls
 function newtodo(e) {
   e.preventDefault();
@@ -97,7 +106,6 @@ function clearInputs() {
 }
 
 // SEARCH BAR EVENT LISTENER
-$('.search-bar-input').on('keyup',searchFunction)
 //filter for search
 function searchFunction() {
 
@@ -120,24 +128,19 @@ function createfilterBoxes(matchingTodos) {
   })};
 
   //filter by inportance buttons
-  $('.middle').on('click', '.critical-btn, .high-btn, .normal-btn, .low-btn, .none-btn', filterBtns)
 
 function filterBtns (event){
   event.preventDefault()
   const parsedGlobalArray = pullGlobalArrayFromLocalStorage()
   const importance = $(event.target).text()
-  console.log(importance)
   const matchingTodos = parsedGlobalArray.filter(function(element){
   return element.quality.includes(importance)
-  });
-    console.log(matchingTodos)
+});
 
   createfilterBoxes(matchingTodos)
 }
 
 // DELETE BUTTON EVENT LISTENER
-
-$('.bottom').on('click', '.todo-box-delete-button', todoDelete)
 //find todo to delete and update local storage
 function todoDelete(e){
   const globalArrayPulledFromLocalStorage = pullGlobalArrayFromLocalStorage()
@@ -156,8 +159,6 @@ function remove (e){
 
 // UPVOTE BUTTON EVENT LISTENER
 
-$('.bottom').on('click','.todo-box-upvote-button', upVote)
-
 function upVote() {
   const importanceInput = $(event.target).closest('.todo-box').find('.todo-box-quality-value');
   const importanceArray = ['None', 'Low', 'Normal', 'High', 'Critical']
@@ -166,8 +167,6 @@ function upVote() {
   importanceInput.text(newQuality);
   updateArray(newQuality)
 }
-
-$('.bottom').on('click','.todo-box-downvote-button', downVote)
 
 function downVote() {
   const importanceInput = $(event.target).closest('.todo-box').find('.todo-box-quality-value');
@@ -236,7 +235,6 @@ function updateArray(newQuality){
 
 
 //el for todo updates
-$('.bottom').on('keyup', '.todo-box-text, .todo-box-header', manageFields)
 //function for event listener todo updates
 // function todoUpdate (event){
 //   retrunBtnBlur (event)
@@ -276,20 +274,20 @@ pushGlobalArrayToLocalStorage(parsedGlobalArray)
 // }
 
 function createBox (todo) {
-$('.bottom').prepend(`
+  $('.bottom').prepend(`
   <article id="${todo.id}" class="todo-box ${todo.completed}">
-  <p class="todo-box-id-hidden">${todo.id}</p>
-  <div class="todo-box-top-line">
-    <h2 class="todo-box-header" contenteditable="true">${todo.title}</h2>
-    <div class="todo-box-delete-button"></div>
-  </div>
-  <p class="todo-box-text" contenteditable="true">${todo.body}</p>
-  <div class="todo-box-bottom-line">
-    <div class="todo-box-upvote-button icon"></div>
-    <div class="todo-box-downvote-button icon"></div>
-    <p class="todo-box-quality">quality: <span class="todo-box-quality-value">${todo.quality}</span></p><button class="completed-text">Completed</button>
-  </div>
-</article>
+    <p class="todo-box-id-hidden">${todo.id}</p>
+    <div class="todo-box-top-line">
+      <h2 class="todo-box-header" tabindex="0" contenteditable="true">${todo.title}</h2>
+      <div class="todo-box-delete-button" tabindex="0"></div>
+    </div>
+    <p class="todo-box-text" tabindex="0" contenteditable="true">${todo.body}</p>
+    <div class="todo-box-bottom-line">
+      <div class="todo-box-upvote-button icon" tabindex="0"></div>
+      <div class="todo-box-downvote-button icon" tabindex="0"></div>
+      <p class="todo-box-quality">quality: <span class="todo-box-quality-value">${todo.quality}</span></p><button class="completed-text" tabindex="0">Completed</button>
+    </div>
+  </article>
   `);
 }
 
@@ -301,8 +299,6 @@ function pullGlobalArrayFromLocalStorage() {
   const globalArrayPulledFromLocalStorage = JSON.parse(localStorage.getItem('globalArray'));
   return globalArrayPulledFromLocalStorage;
 }
-
-$('.bottom').on('click', '.completed-text', toggleCompleted)
 
 function toggleCompleted() {
   $(this).closest('article').toggleClass('completed');
@@ -320,10 +316,7 @@ function toggleCompleted() {
   }
   console.log(currentArray[currentIndex])
   pushGlobalArrayToLocalStorage(currentArray);
-
 }
-
-$('.showtodo').on('click', filterCompleted)
 
 function filterCompleted() {
   event.preventDefault()
