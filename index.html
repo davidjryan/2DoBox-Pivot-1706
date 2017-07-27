@@ -12,38 +12,26 @@
       <section class="top">
         <h1 class="box-title-teal">ToDo<span class="box-title-grey">Box</span></h1>
         <form class="todo-input">
-          <input class = "todo-input-title" type="text" placeholder="Title" />
-          <textarea class="todo-input-body" placeholder="Task"></textarea>
-          <input class= "inputbutton todo-input-save-button" type="submit" value="save" disabled />
-          <input class= "inputbutton showtodo" type="submit" value="show completed" />
+          <input class="todo-input-title" tabindex="0" type="text" placeholder="Title" />
+          <textarea class="todo-input-body" tabindex="0" placeholder="Task"></textarea>
+          <input class= "inputbutton todo-input-save-button" tabindex="0" type="submit" value="save" disabled />
+          <input class= "inputbutton showtodo" tabindex="0" type="submit" value="show completed" />
         </form>
       </section>
       <section class="middle">
         <form class="search-bar">
-          <input class="search-bar-input" type="text" placeholder="Search" />
+          <input class="search-bar-input" tabindex="0" type="text" placeholder="Search" />
           <div class="btn-wrap">
-            <button class="critical-btn quality-btn"type="button" name="button">Critical</button>
-            <button class="high-btn quality-btn"type="button" name="button">High</button>
-            <button class="normal-btn quality-btn"type="button" name="button">Normal</button>
-            <button class="low-btn quality-btn"type="button" name="button">Low</button>
-            <button class="none-btn quality-btn"type="button" name="button">None</button>
+            <button class="critical-btn quality-btn" tabindex="0" type="button" name="button">Critical</button>
+            <button class="high-btn quality-btn" tabindex="0" type="button" name="button">High</button>
+            <button class="normal-btn quality-btn" tabindex="0" type="button" name="button">Normal</button>
+            <button class="low-btn quality-btn" tabindex="0" type="button" name="button">Low</button>
+            <button class="none-btn quality-btn" tabindex="0" type="button" name="button">None</button>
           </div>
         </form>
       </section>
       <section class="bottom">
-        <article id="hidden-template"class="todo-box">
-          <p class="todo-box-id-hidden">${todo.id}</p>
-          <div class="todo-box-top-line">
-            <h2 class="todo-box-header">${todo.title}</h2>
-            <div class="todo-box-delete-button"></div>
-          </div>
-          <p class="todo-box-text">${todo.body}</p>
-          <div class="todo-box-bottom-line">
-            <div class="todo-box-upvote-button icon"></div>
-            <div class="todo-box-downvote-button icon"></div>
-            <p class="todo-box-quality">quality: <span class="todo-box-quality-value">${todo.quality}</span></p>
-          </div>
-        </article>
+
       </section>
     </main>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
